@@ -44,6 +44,13 @@ extern "C"
         (   (((uint16_t)BIN8(b15, b14, b13, b12, b11, b10, b9, b8))<<8)             \
           | BIN8(b7, b6, b5, b4, b3, b2, b1, b0))
 
+/**
+ *  Can be used to create 32bit constants with binary numbers.\n
+ *  Only 0 and 1 must be used for b0..b31
+ */
+#define BIN32( b31, b30, b29, b28, b27, b26, b25, b24, b23, b22, b21, b20, b19, b18, b17, b16, b15, b14, b13, b12, b11, b10, b9, b8, b7, b6, b5, b4, b3, b2, b1, b0) \
+        (   (((uint32t)BIN16(b31, b30, b29, b28, b27, b26, b25, b24, b23, b22, b21, b20, b19, b18, b17, b16))<<16)                                                   \
+	  | BIN16(b15, b14, b13, b12, b11, b10, b9, b8, b7, b6, b5, b4, b3, b2, b1, b0))
 
 /**
  * converts a bcd pair to integer

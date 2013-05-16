@@ -768,7 +768,7 @@ typedef struct
 
 #if IRMP_SUPPORT_SIRCS_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER sircs_param =
+const static PROGMEM IRMP_PARAMETER sircs_param =
 {
     IRMP_SIRCS_PROTOCOL,                                                // protocol:        ir protocol
     SIRCS_1_PULSE_LEN_MIN,                                              // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -793,7 +793,7 @@ static PROGMEM IRMP_PARAMETER sircs_param =
 
 #if IRMP_SUPPORT_NEC_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER nec_param =
+const static PROGMEM IRMP_PARAMETER nec_param =
 {
     IRMP_NEC_PROTOCOL,                                                  // protocol:        ir protocol
     NEC_PULSE_LEN_MIN,                                                  // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -814,7 +814,7 @@ static PROGMEM IRMP_PARAMETER nec_param =
     NEC_FLAGS                                                           // flags:           some flags
 };
 
-static PROGMEM IRMP_PARAMETER nec_rep_param =
+const static PROGMEM IRMP_PARAMETER nec_rep_param =
 {
     IRMP_NEC_PROTOCOL,                                                  // protocol:        ir protocol
     NEC_PULSE_LEN_MIN,                                                  // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -839,7 +839,7 @@ static PROGMEM IRMP_PARAMETER nec_rep_param =
 
 #if IRMP_SUPPORT_SAMSUNG_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER samsung_param =
+const static PROGMEM IRMP_PARAMETER samsung_param =
 {
     IRMP_SAMSUNG_PROTOCOL,                                              // protocol:        ir protocol
     SAMSUNG_PULSE_LEN_MIN,                                              // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -864,7 +864,7 @@ static PROGMEM IRMP_PARAMETER samsung_param =
 
 #if IRMP_SUPPORT_MATSUSHITA_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER matsushita_param =
+const static PROGMEM IRMP_PARAMETER matsushita_param =
 {
     IRMP_MATSUSHITA_PROTOCOL,                                           // protocol:        ir protocol
     MATSUSHITA_PULSE_LEN_MIN,                                           // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -889,7 +889,7 @@ static PROGMEM IRMP_PARAMETER matsushita_param =
 
 #if IRMP_SUPPORT_KASEIKYO_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER kaseikyo_param =
+const static PROGMEM IRMP_PARAMETER kaseikyo_param =
 {
     IRMP_KASEIKYO_PROTOCOL,                                             // protocol:        ir protocol
     KASEIKYO_PULSE_LEN_MIN,                                             // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -914,7 +914,7 @@ static PROGMEM IRMP_PARAMETER kaseikyo_param =
 
 #if IRMP_SUPPORT_RECS80_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER recs80_param =
+const static PROGMEM IRMP_PARAMETER recs80_param =
 {
     IRMP_RECS80_PROTOCOL,                                               // protocol:        ir protocol
     RECS80_PULSE_LEN_MIN,                                               // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -939,7 +939,7 @@ static PROGMEM IRMP_PARAMETER recs80_param =
 
 #if IRMP_SUPPORT_RC5_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER rc5_param =
+const static PROGMEM IRMP_PARAMETER rc5_param =
 {
     IRMP_RC5_PROTOCOL,                                                  // protocol:        ir protocol
     RC5_BIT_LEN_MIN,                                                    // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -964,7 +964,7 @@ static PROGMEM IRMP_PARAMETER rc5_param =
 
 #if IRMP_SUPPORT_DENON_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER denon_param =
+const static PROGMEM IRMP_PARAMETER denon_param =
 {
     IRMP_DENON_PROTOCOL,                                                // protocol:        ir protocol
     DENON_PULSE_LEN_MIN,                                                // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -989,7 +989,7 @@ static PROGMEM IRMP_PARAMETER denon_param =
 
 #if IRMP_SUPPORT_RC6_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER rc6_param =
+const static PROGMEM IRMP_PARAMETER rc6_param =
 {
     IRMP_RC6_PROTOCOL,                                                  // protocol:        ir protocol
     RC6_BIT_LEN_MIN,                                                    // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -1014,7 +1014,7 @@ static PROGMEM IRMP_PARAMETER rc6_param =
 
 #if IRMP_SUPPORT_RECS80EXT_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER recs80ext_param =
+const static PROGMEM IRMP_PARAMETER recs80ext_param =
 {
     IRMP_RECS80EXT_PROTOCOL,                                            // protocol:        ir protocol
     RECS80EXT_PULSE_LEN_MIN,                                            // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -1039,7 +1039,7 @@ static PROGMEM IRMP_PARAMETER recs80ext_param =
 
 #if IRMP_SUPPORT_NUBERT_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER nubert_param =
+const static PROGMEM IRMP_PARAMETER nubert_param =
 {
     IRMP_NUBERT_PROTOCOL,                                               // protocol:        ir protocol
     NUBERT_1_PULSE_LEN_MIN,                                             // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -1064,7 +1064,7 @@ static PROGMEM IRMP_PARAMETER nubert_param =
 
 #if IRMP_SUPPORT_BANG_OLUFSEN_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER bang_olufsen_param =
+const static PROGMEM IRMP_PARAMETER bang_olufsen_param =
 {
     IRMP_BANG_OLUFSEN_PROTOCOL,                                         // protocol:        ir protocol
     BANG_OLUFSEN_PULSE_LEN_MIN,                                         // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -1089,7 +1089,7 @@ static PROGMEM IRMP_PARAMETER bang_olufsen_param =
 
 #if IRMP_SUPPORT_GRUNDIG_OR_NOKIA_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER grundig_param =
+const static PROGMEM IRMP_PARAMETER grundig_param =
 {
     IRMP_GRUNDIG_PROTOCOL,                                              // protocol:        ir protocol
     GRUNDIG_OR_NOKIA_BIT_LEN_MIN,                                       // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -1114,7 +1114,7 @@ static PROGMEM IRMP_PARAMETER grundig_param =
 
 #if IRMP_SUPPORT_SIEMENS_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER siemens_param =
+const static PROGMEM IRMP_PARAMETER siemens_param =
 {
     IRMP_SIEMENS_PROTOCOL,                                              // protocol:        ir protocol
     SIEMENS_BIT_LEN_MIN,                                                // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -1139,7 +1139,7 @@ static PROGMEM IRMP_PARAMETER siemens_param =
 
 #if IRMP_SUPPORT_FDC_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER fdc_param =
+const static PROGMEM IRMP_PARAMETER fdc_param =
 {
     IRMP_FDC_PROTOCOL,                                                  // protocol:        ir protocol
     FDC_PULSE_LEN_MIN,                                                  // pulse_1_len_min: minimum length of pulse with bit value 1
@@ -1164,7 +1164,7 @@ static PROGMEM IRMP_PARAMETER fdc_param =
 
 #if IRMP_SUPPORT_RCCAR_PROTOCOL == 1
 
-static PROGMEM IRMP_PARAMETER rccar_param =
+const static PROGMEM IRMP_PARAMETER rccar_param =
 {
     IRMP_RCCAR_PROTOCOL,                                                // protocol:        ir protocol
     RCCAR_PULSE_LEN_MIN,                                                // pulse_1_len_min: minimum length of pulse with bit value 1

@@ -36,9 +36,9 @@
 
 /* TODO: make PROGMEM if more ram is needed (+10B Progmem)*/
 /* TODO: make more flexible */
-#define DISP_SETBIT(x) ( 1 <<( (x) - DWP_MIN_FIRST))
+#define DISP_SETBIT(x) (1L <<( (x) ))
 /* consider to put translationmatrix to eeprom  */
-static const uint8_t s_minData[TM_COUNT][11] =  {
+static const uint32_t s_minData[TM_COUNT][11] PROGMEM =  {
   {
     (DISP_SETBIT(DWP_fuenfMin)   | DISP_SETBIT(DWP_nach) ),
     (DISP_SETBIT(DWP_zehnMin)    | DISP_SETBIT(DWP_nach) ),
@@ -93,10 +93,7 @@ static const uint8_t s_minData[TM_COUNT][11] =  {
   },
 };
 
-#undef DISP_SETBIT
-
-#define DISP_SETBIT(x) ( 1L <<( (x) ))
-const uint16_t s_numbers[12] = {
+const uint32_t s_numbers[12] PROGMEM = {
   ( DISP_SETBIT(DWP_zwoelf)                                              ),
   ( DISP_SETBIT(DWP_ei)       | DISP_SETBIT(DWP_n)  | DISP_SETBIT(DWP_s) ),
   ( DISP_SETBIT(DWP_zw)       | DISP_SETBIT(DWP_ei)                      ),
@@ -133,7 +130,6 @@ DisplayState display_getTimeState (const DATETIME* i_newDateTime)
   uint8_t hour       = i_newDateTime->hh;
   uint8_t minutes    = i_newDateTime->mm/5;
   uint8_t minuteLeds = i_newDateTime->mm%5;
-  uint8_t minuteLedSubState = 0;
 
 
 
@@ -156,27 +152,25 @@ DisplayState display_getTimeState (const DATETIME* i_newDateTime)
   if(minutes == 0){
     leds |= (1L << DWP_clock);
   }else{
-    leds |= ((DisplayState)(s_minData[langMode][minutes-1])) << DWP_MIN_FIRST;
+    leds |= (DisplayState)(pgm_read_dword(&(s_minData[langMode][minutes-1])));
     if( (1<<minutes) & s_hourIncrement[langMode] ){
       ++hour;
     }
   }
 
   if(minuteLeds >= 4){
-      minuteLedSubState |= (1 << (DWP_min4-DWP_MIN_LEDS_BEGIN));
+      leds |= (1L << DWP_min4);
   }
   if(minuteLeds >= 3){
-      minuteLedSubState |= (1 << (DWP_min3-DWP_MIN_LEDS_BEGIN));
+      leds |= (1L << DWP_min3);
   }
   if(minuteLeds >= 2){
-      minuteLedSubState |= (1 << (DWP_min2-DWP_MIN_LEDS_BEGIN));
+      leds |= (1L << DWP_min2);
   }
   if(minuteLeds >= 1){
-      minuteLedSubState |= (1 << (DWP_min1-DWP_MIN_LEDS_BEGIN));
+      leds |= (1L << DWP_min1);
   }
 
-  leds |= ((DisplayState) minuteLedSubState) << DWP_MIN_LEDS_BEGIN;
- 
   //for(;minuteLeds;--minuteLeds){
   //  leds |= (1L << (minuteLeds-1 + DWP_MIN_LEDS_BEGIN));
   //}

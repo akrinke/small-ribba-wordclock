@@ -32,7 +32,7 @@
 
 WcEepromData EEMEM eepromParams;
 
-WcEepromData PROGMEM pm_eepromDefaultParams = {
+const WcEepromData PROGMEM pm_eepromDefaultParams = {
   /* .userParams    = */ USEREEPROMPARAMS_DEFAULT,
   /* .displayParams = */ DISPLAYEEPROMPARAMS_DEFAULT,
   /* .pwmParams     = */ PWMEEPROMPARAMS_DEFAULT,

@@ -57,7 +57,7 @@ extern "C"
  *  by disabling all the RGB-Code
  *  @remark  Tix clock is allways mono color
  */
-#define MONO_COLOR_CLOCK  ((TIX_DISP == 1) ||  0)
+#define MONO_COLOR_CLOCK  ((TIX_DISP == 1) ||  1)
 
 /**
  *  activates code for DCF control 
@@ -67,9 +67,9 @@ extern "C"
  *      Never the less deactivating saves ~1k so it may help using a smaller controller.
  */
 #define DCF_PRESENT           1
-#define AMBILIGHT_PRESENT     1  /**< activates Code for ambilight control GPO1 */
-#define BLUETOOTH_PRESENT     1  /**< activates Code for bluetooth control GPO2 */
-#define AUXPOWER_PRESENT      1  /**< activates Code for auxiliary control GPO3 */
+#define AMBILIGHT_PRESENT     0  /**< activates Code for ambilight control GPO1 */
+#define BLUETOOTH_PRESENT     0  /**< activates Code for bluetooth control GPO2 */
+#define AUXPOWER_PRESENT      0  /**< activates Code for auxiliary control GPO3 */
 	
 /**
  *  activates code for UART Reset to start bootloader
@@ -79,8 +79,8 @@ extern "C"
  *       It is possible to reset via Watchdog (BOOTLOADER_RESET_WDT = 1)
  *       or to jump direclty to the bootloader (BOOTLOADER_RESET_WDT = 0).
  */
-#define BOOTLOADER_RESET_UART 1
-#define BOOTLOADER_RESET_WDT  1
+#define BOOTLOADER_RESET_UART 0
+#define BOOTLOADER_RESET_WDT  0
 
 
 /* most important user parameters */

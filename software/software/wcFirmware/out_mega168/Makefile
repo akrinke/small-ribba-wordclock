@@ -4,8 +4,8 @@
 
 ## General Flags
 PROJECT = wordclock
-MCU = atmega168
-TARGET = wordclock_mega168.elf
+MCU = atmega168p
+TARGET = wordclock_mega168p.elf
 CC = avr-gcc
 
 CPP = avr-g++
@@ -25,7 +25,7 @@ ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
 
 ## Linker flags
 LDFLAGS = $(COMMON)
-LDFLAGS +=  -Wl,-Map=wordclock_mega168.map
+LDFLAGS +=  -Wl,-Map=wordclock_mega168p.map
 
 
 ## Intel Hex file production flags
@@ -43,7 +43,7 @@ OBJECTS = base.o dcf77.o display.o display_tix.o display_wc.o display_wc_eng.o d
 LINKONLYOBJECTS = 
 
 ## Build
-all: $(TARGET) wordclock_mega168.hex wordclock_mega168.eep wordclock_mega168.lss size
+all: $(TARGET) wordclock_mega168p.hex wordclock_mega168p.eep wordclock_mega168p.lss size
 
 ## Compile
 base.o: ../src/base.c
@@ -126,7 +126,7 @@ size: ${TARGET}
 ## Clean target
 .PHONY: clean
 clean:
-	-rm -rf $(OBJECTS) wordclock_mega168.elf dep/* wordclock_mega168.hex wordclock_mega168.eep wordclock_mega168.lss wordclock_mega168.map
+	-rm -rf $(OBJECTS) wordclock_mega168p.elf dep/* wordclock_mega168p.hex wordclock_mega168p.eep wordclock_mega168p.lss wordclock_mega168p.map
 
 
 ## Other dependencies

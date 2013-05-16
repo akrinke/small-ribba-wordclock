@@ -56,7 +56,7 @@ void wcEeprom_init(void);
 
 /**
  *  gives a pointer to a working copy of the data from eeprom
- *  \details   This data can be modiefied.\n
+ *  \details   This data can be modified.\n
  *             To save the changed parameters back to eeprom call wcEeprom_writeback
  *  \warning   If WcEepromData becomes larger then 254 byte the code has to be reviewd and changed
  *             because many loopcounter and indexes are only 8bit

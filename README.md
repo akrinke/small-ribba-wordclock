@@ -3,7 +3,7 @@ These are the design files for a word clock
 a 200x200 mm² PCB which is meant to be built into a small 23x23 cm² 
 RIBBA picture frame from IKEA.
 
-The 2-layer PCB is based on the schematic from mikrocontroller.net 
+The single layer PCB is based on the schematic from mikrocontroller.net 
 (variant 1) with small changes to the pin assignment in order to
 simplify the layout. The software was modified according to these
 changes.

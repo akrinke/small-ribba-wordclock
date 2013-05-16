@@ -88,7 +88,7 @@ extern void display_outputData(DisplayState state);
 
 
 /**
- * calculates which display elements should be active to display the giben time
+ * calculates which display elements should be active to display the given time
  * @details  f_call: extern irregularly  (internal: when called setNewTime)
  * @param    i_newDateTime  the new time that should be displayed
  * @return   DisplayState as needed by setDisplayState

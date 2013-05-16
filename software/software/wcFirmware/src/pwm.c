@@ -36,22 +36,12 @@
  * PWM: constants/variables
  *---------------------------------------------------------------------------------------------------------------------------------------------------
  */
-#define PWM_RED_PORT          PORTD                                             ///< port D
-#define PWM_RED_DDR           DDRD                                              ///< ddr D
-#define PWM_RED_BIT           6                                                 ///< OC0A
-
-#define PWM_GREEN_PORT        PORTD                                             ///< port D
-#define PWM_GREEN_DDR         DDRD                                              ///< ddr D
-#define PWM_GREEN_BIT         5                                                 ///< OC0B
-
-#define PWM_BLUE_PORT         PORTD                                             ///< port D
-#define PWM_BLUE_DDR          DDRD                                              ///< ddr D
-#define PWM_BLUE_BIT          3                                                 ///< OC2B
-
-
+#define PWM_PORT          PORTD                                             ///< port D
+#define PWM_DDR           DDRD                                              ///< ddr D
+#define PWM_BIT           3                                                 ///< OC2B
 
 #if (MAX_PWM_STEPS==32)
-uint8_t pwm_table[MAX_PWM_STEPS]  PROGMEM =
+const uint8_t pwm_table[MAX_PWM_STEPS]  PROGMEM =
 {
      1,   2,   3,   4,   5,   6,   7,   8,
      9,  10,  12,  14,  16,  18,  21,  24,
@@ -59,7 +49,7 @@ uint8_t pwm_table[MAX_PWM_STEPS]  PROGMEM =
     83,  96, 111, 129, 153, 182, 216, 255
 };
 #elif (MAX_PWM_STEPS==64)
-uint8_t pwm_table[MAX_PWM_STEPS]  PROGMEM =
+const uint8_t pwm_table[MAX_PWM_STEPS]  PROGMEM =
 {
 	1,	 2,	  3,   4,   5,   6,   7,   8,
     9,  10,  11,  12,  13,  14,  15,  16,
@@ -92,16 +82,6 @@ static uint8_t                brightness_lock;                                  
 
 static uint8_t                base_ldr_idx;                                     ///< current index to g_ldrBrightness2pwmStep array
 
-#if (MONO_COLOR_CLOCK != 1)
-  static uint8_t                red_pwm_idx;                                      ///< current red pwm index
-  static uint8_t                green_pwm_idx;                                    ///< current green pwm index
-  static uint8_t                blue_pwm_idx;                                     ///< current blue pwm index
-  static uint8_t                red_pwm;                                      ///< current red pwm value
-  static uint8_t                green_pwm;                                    ///< current green pwm value
-  static uint8_t                blue_pwm;                                     ///< current blue pwm value
-#endif
-
-
 /*---------------------------------------------------------------------------------------------------------------------------------------------------
  *  Set brightness by step
  *  @details  sets brightness by global step values base_pwm_idx + offset_pwm_idx
@@ -126,11 +106,7 @@ pwm_set_brightness_step (void)
     brightness_pwm_val = pgm_read_byte (pwm_table + pwm_idx);
   }
 
-#if (MONO_COLOR_CLOCK == 1)
-    OCR0A  = 255-brightness_pwm_val;
-#else
-    pwm_set_colors(red_pwm, green_pwm, blue_pwm);
-# endif
+    OCR2B  = 255-brightness_pwm_val;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -141,10 +117,10 @@ pwm_set_brightness_step (void)
 void
 pwm_init (void)
 {
-  PWM_RED_PORT &= ~(1<<PWM_RED_BIT);                                            // set PWM_RED_BIT to low
-  PWM_RED_DDR |= (1<<PWM_RED_BIT);                                              // set PWM_RED_BIT to output
+  PWM_PORT &= ~(1<<PWM_BIT);                                                    // set PWM_BIT to low
+  PWM_DDR |= (1<<PWM_BIT);                                                      // set PWM_BIT to output
 
-  TCCR0A = (1<<WGM01) | (1<<WGM00);                                             // non-inverted PWM, 8 Bit Fast PWM
+  //TCCR0A = (1<<WGM01) | (1<<WGM00);                                             // non-inverted PWM, 8 Bit Fast PWM
 
   //                                                                            // values for Fast PWM:
   // TCCR0B = (1<<CS00);                                                        // 001: prescaler    1 -> 8 MHz / 256 /    1 = 31250 Hz PWM frequency
@@ -153,7 +129,7 @@ pwm_init (void)
   // TCCR0B = (1<<CS02);                                                        // 100: prescaler  256 -> 8 MHz / 256 /  256 =   122 Hz PWM frequency
   // TCCR0B = (1<<CS02) | (1<<CS00);                                            // 101: prescaler 1024 -> 8 MHz / 256 / 1024 =    31 Hz PWM frequency
 
-  TCCR0B = (1<<CS01) | (1<<CS00);                                               // 011: prescaler   64 -> 8 MHz / 256 /   64 =   488 Hz PWM frequency
+  //TCCR0B = (1<<CS01) | (1<<CS00);                                               // 011: prescaler   64 -> 8 MHz / 256 /   64 =   488 Hz PWM frequency
 
   TCCR2A = (1<<WGM21) | (1<<WGM20);                                             // non-inverted PWM, 8 Bit Fast PWM
   //                                                                            // values for Fast PWM:
@@ -166,16 +142,6 @@ pwm_init (void)
   // TCCR2B = (1<<CS22) | (1<<CS21) | | (1<<CS20);                              // 111: prescaler 1024 -> 8 MHz / 256 / 1024 =    31 Hz PWM frequency
 
   TCCR2B = (1<<CS22);                                                           // 100: prescaler   64 -> 8 MHz / 256 /   64 =   488 Hz PWM frequency
-
-# if (MONO_COLOR_CLOCK != 1)
-    PWM_GREEN_PORT &= ~(1<<PWM_GREEN_BIT);                                        // set PWM_RED_BIT to low
-    PWM_GREEN_DDR |= (1<<PWM_GREEN_BIT);                                          // set PWM_RED_BIT to output
-    PWM_BLUE_PORT &= ~(1<<PWM_BLUE_BIT);                                          // set PWM_BLUE_BIT to low
-    PWM_BLUE_DDR |= (1<<PWM_BLUE_BIT);                                            // set PWM_BLUE_BIT to output
-
-
-# endif
-
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -185,12 +151,10 @@ pwm_init (void)
 void pwm_on (void)
 {
 
-  TCCR0A |= ((1<<COM0A1) | (1<<COM0A0));                                          // @EDI: INVERTED PWM on OC0A, 8 Bit Fast PWM
+  //TCCR0A |= ((1<<COM0A1) | (1<<COM0A0));                                          // @EDI: INVERTED PWM on OC0A, 8 Bit Fast PWM
 
-# if (MONO_COLOR_CLOCK != 1)
-    TCCR0A |= ((1<<COM0B1) | (1<<COM0B0));                                        // @EDI: INVERTED PWM on OC0B, 8 Bit Fast PWM
-    TCCR2A |= ((1<<COM2B1) | (1<<COM2B0));                                        // @EDI: INVERTED PWM on OC2B, 8 Bit Fast PWM
-# endif
+  //TCCR0A |= ((1<<COM0B1) | (1<<COM0B0));                                        // @EDI: INVERTED PWM on OC0B, 8 Bit Fast PWM
+  TCCR2A |= ((1<<COM2B1) | (1<<COM2B0));                                        // @EDI: INVERTED PWM on OC2B, 8 Bit Fast PWM
 
   pwm_is_on = TRUE;                                                               // set flag
   pwm_set_brightness_step ();
@@ -203,18 +167,8 @@ void pwm_on (void)
 void pwm_off (void)
 {
 
-  PWM_RED_PORT  &= ~(1<<PWM_RED_BIT);                                             // set PWM_RED_BIT to low
-  TCCR0A &= ~((1<<COM0A1) | (1<<COM0A0));                                         // reset TCCR0A (@EDI: INVERSED PWM)
-
-# if (MONO_COLOR_CLOCK != 1)
-    PWM_GREEN_PORT  &= ~(1<<PWM_GREEN_BIT);                                       // set PWM_GREEN_BIT to low
-    TCCR0A &= ~((1<<COM0B1) | (1<<COM0B0));                                       // reset TCCR0A (@EDI: INVERSED PWM)
-
-    PWM_BLUE_PORT  &= ~(1<<PWM_BLUE_BIT);                                         // set PWM_BLUE_BIT to low
-    TCCR2A &= ~((1<<COM2B1) | (1<<COM2B0));                                       // reset TCCR2A (@EDI: INVERSED PWM)
-# endif
-
-
+  PWM_PORT  &= ~(1<<PWM_BIT);                                                     // set PWM_BIT to low
+  TCCR2A &= ~((1<<COM2B1) | (1<<COM2B0));                                       // reset TCCR2A (@EDI: INVERSED PWM)
   pwm_is_on = FALSE;                                                              // reset flag
 }
 
@@ -236,91 +190,6 @@ pwm_on_off (void)
   }
 }
 
-
-#if (MONO_COLOR_CLOCK != 1)
-/*---------------------------------------------------------------------------------------------------------------------------------------------------
- *  Set RGB colors
- *  @param    red: range 0-255
- *  @param    green: range 0-255
- *  @param    blue: range 0-255
- *---------------------------------------------------------------------------------------------------------------------------------------------------
- */
-void
-pwm_set_colors (uint8_t red, uint8_t green, uint8_t blue)
-{
-  uint16_t brightnessFactor =  ((uint16_t) brightness_pwm_val) + 1;
-  red_pwm   = red;
-  green_pwm = green;
-  blue_pwm  = blue;
-
-
-  OCR0A  = 255 - ((brightnessFactor * red)/256);				// @EDI: INVERSED fast PWM mode, thus on phase is towards TOP
-  OCR0B  = 255 - ((brightnessFactor * green)/256);				// @EDI: INVERSED fast PWM mode, thus on phase is towards TOP
-  OCR2B  = 255 - ((brightnessFactor * blue)/256);				// @EDI: INVERSED fast PWM mode, thus on phase is towards TOP
-}
-
-/*---------------------------------------------------------------------------------------------------------------------------------------------------
- *  Get RGB colors
- *  @param    pointer to value of red pwm: range 0-255
- *  @param    pointer to value of green pwm: range 0-255
- *  @param    pointer to value of blue pwm: range 0-255
- *---------------------------------------------------------------------------------------------------------------------------------------------------
- */
-void
-pwm_get_colors (uint8_t * redp, uint8_t * greenp, uint8_t * bluep)
-{
-  *redp   = red_pwm;
-  *greenp = green_pwm;
-  *bluep  = blue_pwm;
-}
-
-/*---------------------------------------------------------------------------------------------------------------------------------------------------
- *  Set RGB colors by step values
- *  @param    red_step: range 0 to MAX_PWM_STEPS
- *  @param    green_step: range 0 to MAX_PWM_STEPS
- *  @param    blue_step: range 0 to MAX_PWM_STEPS
- *---------------------------------------------------------------------------------------------------------------------------------------------------
- */
-void
-pwm_set_color_step (uint8_t red_step, uint8_t green_step, uint8_t blue_step)
-{
-  if (red_step >= MAX_PWM_STEPS)
-  {
-    red_step = MAX_PWM_STEPS - 1;
-  }
-
-  if (green_step >= MAX_PWM_STEPS)
-  {
-    green_step = MAX_PWM_STEPS - 1;
-  }
-
-  if (blue_step >= MAX_PWM_STEPS)
-  {
-    blue_step = MAX_PWM_STEPS - 1;
-  }
-
-  red_pwm_idx   = red_step;
-  green_pwm_idx = green_step;
-  blue_pwm_idx  = blue_step;
-
-  pwm_set_colors (pgm_read_byte (pwm_table + red_step), pgm_read_byte (pwm_table + green_step), pgm_read_byte (pwm_table + blue_step));
-}
-
-/*---------------------------------------------------------------------------------------------------------------------------------------------------
- *  Get RGB color step values
- *  @param    pointer to red_step: range 0 to MAX_PWM_STEPS
- *  @param    pointer to green_step: range 0 to MAX_PWM_STEPS
- *  @param    pointer to blue_step: range 0 to MAX_PWM_STEPS
- *---------------------------------------------------------------------------------------------------------------------------------------------------
- */
-void
-pwm_get_color_step (uint8_t * red_stepp, uint8_t * green_stepp, uint8_t * blue_stepp)
-{
-  *red_stepp    = red_pwm_idx;
-  *green_stepp  = green_pwm_idx;
-  *blue_stepp   = blue_pwm_idx;
-}
-#endif
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------
  *  Set base brightness by step 0-31

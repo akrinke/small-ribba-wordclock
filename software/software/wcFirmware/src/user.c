@@ -43,6 +43,7 @@
 
 #include <inttypes.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 
 #include "main.h"
 #include "user.h"

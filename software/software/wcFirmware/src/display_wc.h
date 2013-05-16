@@ -45,22 +45,24 @@ extern "C"
 #endif 
 
 
-/* ports, pins and ddrs for minute LEDs*/
-#define DISPLAY_MIN1_PORT PORTB
-#define DISPLAY_MIN1_DDR  DDRB
-#define DISPLAY_MIN1_PIN  PIN0
+/* ports, pins and ddrs for the 4 directly connected LEDs
+ * (not via shift register) */
 
-#define DISPLAY_MIN2_PORT PORTD
-#define DISPLAY_MIN2_DDR  DDRD
-#define DISPLAY_MIN2_PIN  PIN7
+#define DISPLAY_LEDM1_PORT PORTB
+#define DISPLAY_LEDM1_DDR  DDRB
+#define DISPLAY_LEDM1_PIN  PIN1
 
-#define DISPLAY_MIN3_PORT PORTC
-#define DISPLAY_MIN3_DDR  DDRC
-#define DISPLAY_MIN3_PIN  PIN2
+#define DISPLAY_LEDM2_PORT PORTB
+#define DISPLAY_LEDM2_DDR  DDRB
+#define DISPLAY_LEDM2_PIN  PIN0
 
-#define DISPLAY_MIN4_PORT PORTC
-#define DISPLAY_MIN4_DDR  DDRC
-#define DISPLAY_MIN4_PIN  PIN3
+#define DISPLAY_LEDM3_PORT PORTD
+#define DISPLAY_LEDM3_DDR  DDRD
+#define DISPLAY_LEDM3_PIN  PIN7
+
+#define DISPLAY_LEDM4_PORT PORTD
+#define DISPLAY_LEDM4_DDR  DDRD
+#define DISPLAY_LEDM4_PIN  PIN6
 
 /**
  * This Enum defines how the led words are connected to the Board and the position 

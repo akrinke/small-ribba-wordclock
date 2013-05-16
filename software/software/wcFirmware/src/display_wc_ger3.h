@@ -102,52 +102,42 @@ extern "C"
 
 /**
  * This Enum defines how the led words are connected to the Board and the position 
- * in the state data ( that's why the minutes (gpio, not shift register) are also in this enum )
+ * in the state data ( that's why the gpios are also in this enum )
  */
 enum e_displayWordPos
 {
-  DWP_zw  = 0,
-  DWP_ei     ,
-  DWP_n      ,
-  DWP_s      ,
-  DWP_ieben  ,
-  DWP_drei   ,
-  DWP_vier   ,
-  DWP_fuenf  ,
-  DWP_sechs  ,
-  DWP_acht   ,
-  DWP_neun   ,
-  DWP_zehn   ,
-  DWP_elf    ,
-  DWP_zwoelf  ,
-
-  DWP_itis  ,
-  DWP_clock ,
-
-  DWP_fuenfMin   ,
-  DWP_zehnMin    ,
-  DWP_zwanzigMin ,
-  DWP_dreiMin    ,
-  DWP_viertel    ,
-  DWP_nach       ,
-  DWP_vor        ,
-  DWP_halb       ,
-
-  DWP_min1,
-  DWP_min2,
+  DWP_vor = 0,
+  DWP_nach,
+  DWP_zwoelf,
+  DWP_halb,
+  DWP_dreiMin,
+  DWP_zehnMin,
+  DWP_zwanzigMin,
+  DWP_viertel,
+  DWP_fuenf,
+  DWP_vier,
+  DWP_drei,
+  DWP_zw,
+  DWP_ei,
+  DWP_n,
+  DWP_s,
+  DWP_ieben,
   DWP_min3,
+  DWP_clock,
+  DWP_sechs,
   DWP_min4,
+  DWP_acht,
+  DWP_zehn,
+  DWP_elf,
+  DWP_neun,
 
-  DWP_WORDSCOUNT  
+  DWP_min2,
+  DWP_min1,
+  DWP_itis,
+  DWP_fuenfMin,
+
+  DWP_WORDSCOUNT
 };
-
-/** the first of the minute words */
-#define DWP_MIN_FIRST       DWP_fuenfMin
-/** the first hour word */
-#define DWP_HOUR_BEGIN      DWP_zw
-/** the first of the dots that reside on gpio */
-#define DWP_MIN_LEDS_BEGIN  DWP_min1
-
 
 /**  
  *  enumerates the modes how the time senteces will be build
@@ -171,7 +161,7 @@ struct DisplayEepromParams{
 };
 
 #define DISPLAYEEPROMPARAMS_DEFAULT { \
-  /* .mode = */ 0 \
+  /* .mode = */ 2 \
 }
 
 // declare toggle ossi functionality
@@ -245,9 +235,9 @@ static inline DisplayState display_getTimeSetIndicatorMask(void)
 /* for documentation see prototype in display.h */
 static inline DisplayState display_getNumberDisplayState( uint8_t number )
 {
-    extern const uint16_t s_numbers[12];
+    extern const uint32_t s_numbers[12] PROGMEM;
     number = number%12;
-    return ((DisplayState)(s_numbers[number])) << DWP_HOUR_BEGIN;
+    return (DisplayState)(pgm_read_dword(&(s_numbers[number])));
 }
 
 #ifdef __cplusplus
