@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wordclock", "WordClock_VS.vcproj", "{49FB6B17-A03A-44D4-BD9C-59959F2B4128}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		mega168|Win32 = mega168|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49FB6B17-A03A-44D4-BD9C-59959F2B4128}.mega168|Win32.ActiveCfg = mega168|Win32
+		{49FB6B17-A03A-44D4-BD9C-59959F2B4128}.mega168|Win32.Build.0 = mega168|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

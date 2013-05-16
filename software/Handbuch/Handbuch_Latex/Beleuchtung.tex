@@ -1,0 +1,43 @@
+\section{Beleuchtung}\label{sec_Beleuchtung}
+		Die WordClock wird mit modernen LEDs betrieben. 
+		Diese garantieren eine hohe Lebensdauer und einen 
+		relativ geringen Energieverbrauch. 
+		
+		\subsection{Automatische Helligkeitsanpassung}\label{sec_Beleuchtung_autoBrightness}
+			Die WordClock verfügt über einen Helligkeitssensor, 
+			der zur helligkeitsabhängigen Steuerung der LEDs benutzt wird.
+			 
+			Bei dunklerer Umgebungshelligkeit wird auch die Helligkeit 
+			der LEDs reduziert,	um Blendung zu vermeiden.  
+			
+			Bei heller Umgebung wird die LED"=Helligkeit erhöht um 
+			dennoch ein kontrastreiches Bild und damit 
+			problemloses Ablesen zu ermöglichen. 
+
+    \subsection{Manuelle Helligkeitskorrektur}\label{sec_Beleuchtung_manBrightness}
+				Mittels der Heller/Dunkler"=Tasten kann die 
+				automatische Steuerung korrigiert werden.
+ 
+				Diese wird dabei nicht abgeschaltet, sondern nur, je 
+				nach Eingabe, nach oben oder unten korrigiert. 
+				
+				Mit der Taste "`aktuelle Helligkeit übernehmen"' wird der aktuelle korrigierte Wert
+				für die aktuelle Umgebungshelligkeit gespeichert und die angrenzenden Helligkeitsstufen
+				mit korrigiert, so dass auch diese entsprechend der Korrektur etwas dunkler oder heller werden.
+				
+				
+
+\ifthenelse{\WCindividualCfg=0 \or \WCambilight=1}
+{
+		\subsection{Ambilight}\label{sec_Beleuchtung_Ambilight}
+		
+     \ifthenelse{\WCindividualCfg=1}
+                {Die Uhr ist mit einem Umgebungslicht ausgestattet,}
+			          {Optional kann die Uhr mit einem Umgebungslicht ausgestattet sein,}
+				welches die aktuelle Farbe auf die 
+				Wand strahlt und so eine Aura um die Uhr erzeugt. 
+				
+				Das Ambilight kann mittels der Taste "`Ambilight ein-/ausschalten"'
+				aktiviert und deaktiviert werden. 
+}
+{}

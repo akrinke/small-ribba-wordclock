@@ -1,0 +1,100 @@
+
+\section{Uhrzeit}\label{sec_time}
+		Die WordClock verfügt über eine integrierte Quarzuhr,
+		welche eine äußerst genaue Zeitanzeige ermöglicht. 
+		
+		Optional enthält die WordClock einen Funkuhr"=Empfänger, 
+		der die Uhr regelmäßig mit der genauen Uhrzeit versorgt. 
+		Damit wird zum Beispiel auch eine manuelle Umstellung von 
+		Sommer- und Winterzeit überflüssig. 
+		
+		Die interne Quarzuhr verfügt über eine kleine 
+		Pufferbatterie, die im Falle einer Trennung vom 
+		Stromnetz dafür sorgt, dass die Uhrzeit nicht verloren 
+		geht und normal weiterläuft. 
+		
+		Nach einem Neustart der Uhr steht so die aktuelle Uhrzeit 
+		auch dann zur Verfügung, wenn kein Funk-Uhr-Empfänger enthalten ist.
+		
+		\subsection{Uhrzeit manuell einstellen}\label{sec_time_manualSet}
+				Mit der Taste "`Uhrzeiteingabe"' kann die Zeit manuell eingegeben werden.
+				  
+				Nach dem ersten Druck auf die zugeordnete Taste, blinkt die Stundenanzeige.
+				Mittels der Hoch/Runter-Tasten kann nun die Stunde eingestellt werden. 
+				
+				Für die Stunden 20\,Uhr\,--\,8\,Uhr leuchten die LEDs mit verminderter 
+				und für die Stunden 8\,Uhr\,--\,20\,Uhr mit voller Helligkeit, 
+				um Tag oder Nacht zu signalisieren. 
+				
+				So ist es trotz fehlender 24h-Anzeige möglich 
+				zwischen Tag- und Nachtstunden zu unterscheiden. 
+				
+				Nach einem weiteren Druck auf die zugeordnete Taste, 
+				blinken die Minuten, die ebenfalls mit den 
+				"`Hoch/Runter"' Tasten eingestellt werden können.
+				  
+				Ein dritter Druck übernimmt dann die eingestellte Zeit 
+				und wechselt in den zuvor verlassenen Modus. 
+
+    \ifthenelse{\WCindividualCfg=0 \or \WCdcf=1}
+    {
+			\subsection{Funkuhr-Abgleich manuell starten}\label{sec_time_manualDCF}
+					Mit der Taste "`Funkuhr"=Abgleich"' wird ein manueller 
+					Abgleich der Zeit über das Funkuhr-Modul initiiert.  
+					
+					Der Abgleich kann, je nach Empfangsqualität, mehrere 
+					Minuten dauern. 
+					
+					In normalen Betrieb erfolgt der Abgleich jeweils zur 
+					vollen Stunde. 
+    }
+		
+		\subsection{Automatische An-/Ausschaltzeit}\label{sec_time_setOnOff}
+				Hiermit können Zeiten festgelegt werden, in denen die LEDs der Uhr 
+				abgeschaltet werden um einerseits Strom zu sparen und andererseits die 
+				Lebensdauer der LEDs zu erhöhen. 
+				
+				
+				Es müssen zwei Zeiten eingegeben werden: die 
+				Ausschaltzeit und die Einschaltzeit. Sind diese Zeiten 
+				identisch, ist die automatische Abschaltung 
+				deaktiviert. 
+				
+				Die Eingabe der Uhrzeiten funktioniert analog zu der 
+				Eingabe der Systemzeit. Mit dem Unterschied, dass 
+				zwei Zeiten eingegeben werden müssen und zur 
+				Bestätigung die Taste "`An/Ausschalt"=Zeiteingabe"' 
+				betätigt werden muss. 
+				
+				Anschließend kann noch ausgewählt werden, ob eine Animation 
+				(abwechselndes Leuchten der Minuten-LEDs) während des Auto-Aus-Modus
+				angezeigt werden soll.
+				
+				Damit ergibt sich folgende Prozedur: 
+				\begin{compactitem}
+						\item  Drücken der "`An/Ausschalt-Zeiteingabe"' Taste 
+						\item  Stundeneingabe Abschaltzeit 
+						\item  Drücken der "`An/Ausschalt-Zeiteingabe"' Taste 
+						\item  Minuteneingabe Abschaltzeit (10min-Schritten) 
+						\item  Drücken der "`An/Ausschalt-Zeiteingabe"' Taste 
+						\item  Stundeneingabe Einschaltzeit 
+						\item  Drücken der "`An/Ausschalt-Zeiteingabe"' Taste 
+						\item  Minuteneingabe Einschaltzeit (10min-Schritten) 
+						\item  Drücken der "`An/Ausschalt-Zeiteingabe"' Taste 
+						\item  Mit "`Hoch/Runter"' Auto-Aus-Signalisierung wählen:
+						       1 = Aus, 2 = An
+						\item  Drücken der "`An/Ausschalt-Zeiteingabe"' Taste 
+				\end{compactitem}
+				
+				Anschließend wird wieder in den ursprünglichen Modus 
+				gewechselt. 
+				
+				Hinweise zur Verhaltensweise
+				\begin{compactitem}
+				%\item Im Auto-Aus-Modus leuchtet nur abwechelnd eine der Minuten-LEDs zur Signalisierung.
+				%\item Jeweils zum Minutenwechsel erscheint die neue Zeit kurzzeitig.
+				\item Wurde die Uhr manuell abgeschalten, 
+				      wird sie beim Erreichen der Einschaltzeit nicht aktiviert.			
+				\item Wird die Uhr im Auto-Aus-Modus manuell eingeschalten,
+				      wird sie beim Erreichen der nächsten Auschaltzeit trotzdem wieder abgeschalten.
+				\end{compactitem}

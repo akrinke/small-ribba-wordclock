@@ -1,0 +1,371 @@
+AVRootloader Version 3.0 by HR
+
+Diese Datei beschreibt wie man den Bootloader konfiguriert und benutzt.
+
+1.) ZIP entpacken mit Ordnern. Auf meinem Rechner habe ich alles im Ordner c:\Programme\Atmel\AVRootloader\ installiert
+2.) AVR Studio 4.x und AvrAssembler2 werden benötigt
+3.) starte AVR Studio und öffne Projekt \AVR\AVRootloader.aps
+
+4.) in AVRootloader.asm müssen einige Konfigurationen vorgenommen werden
+4.1.) korrektes .include zum AVR auswählen, einfach ; entfernen, ACHTUNG nur eines der .include darf aktiv sein
+4.2.) einige Defines müssen/können eingestellt werden
+4.2.1.) UseWDR = 1         aktiviert die Unterstützung des WatchDog Timers
+4.2.2.) UseAutobaud = 1    aktiviert die Baudraten Erkennung
+4.2.3.) UseVerify = 1      aktiviert die separate Überprüfung des FLASHs, deaktiviert ist empfohlen da das Schreiben/Löschen des FLASHs und
+                           schreiben des EEPROMs schon eine implizite Überprüfung drinnen haben, zudem ist die Datenübertragung immer CRC abgesichert
+4.2.4.) UseE2Write = 1     aktiviert den EEPROM Schreiben Befehl
+4.2.5.) UseE2Read = 1      aktiviert den EEPROM Lesen Befehl
+4.2.6.) UseSRAM = 1        aktiviert den SRAM Lesen Befehl, nicht empfohlen wenn Verschlüsselung benutzt wird da dies dann unsicher ist
+4.2.7.) UseCrypt = 1       aktiviert die XTEA Entschlüsselung, man kann also verschlüsselte Daten für das FLASH/EEPROM senden
+4.2.8.) UseCryptFLASH = 1  Daten die ins FLASH geschrieben werden sollen müssen immer verschlüsselt sein, sollt UseCryptFLASH = 0 sein so kann man
+                           Daten ins FLASH mit oder ohne Verschlüsselung schreiben, natürlich ist UseCryptFLASH=0 dann unsicher da ein Angreifer auf diese
+                           Weise ein Spionageprogram installieren könnte das den Bootloader und somit Passwort ausliest
+4.2.9.) UseCryptEEPROM = 1 gilt das Gleiche wie bei UseCryptFLASH nur eben für das EEPROM Schreiben
+4.2.a.) UartInvert = 0     invertiert die UART Pegel
+4.2.b.) RX_PORT/RX         den RX Empfangsport und Pin einstellen
+4.2.c.) TX_PORT/TX         den TX Sendeport und Pin einstellen
+                           wenn beide gleich sind wird der 1-Wire-Modus benutz, sind sie unterschiedlich der 2-Wire-Modus
+                           Möchte man zb. ein RS232 mit MAX232 Treiber benutzen so stellt man separate Pins für RX und TX ein und setzt UartInvert=1
+4.2.d.) XTAL               auf Taktfrequenz des AVRs setzen, sollte UseAutobaud=0 sein so ist dieser Wert wichtig
+4.2.e.) BootDelay          die Wartezeit bis der Bootloader die App anspringt
+4.2.f.) BootBaudrate       Baudrate falls UseAutobaud=0 ist
+4.2.g.) BootVersion = 1
+4.2.h.) BootCodeSize = x   nachdem alles konfiguriert wurde kompiliert ihr mit AvrStudio den Source. Im Messagewindow schaut ihr dann den Wert für
+                           [cseg] used an und tragt diesen bei BootCodeSize ein. Danach nochmal komplieren.
+4.2.i.) BootSign = "BOOT"  scrollt an das Ende des Source. Ihr könnt diesen Wert ändern, er dient zu Identifizierung eines Verbindungsaufbaus und kann als
+                           Passwort betrachtet werden. Dieser String sollte immer eine geradzahlige Anzahl an Zeichen haben. Solltet ihr diesen Wert abändern
+                           so müsst ihr in der Datei AVRootloader.ini in Sektion [System] den Wert Sign=BOOT ebenfalls anpassen.
+4.2.j.) BootInfo           nicht ändern wird alles autom. gemacht
+4.2.k.) BootKey = 16 Bytes Das Passwort für die XTEA Entschlüsselung und nur aktiv wenn UseCrypt=1 ist. Ihr könnt mit der PC-Software AVRootloader.exe diesen
+                           Key per Zufalll erzeugen lassen. Startet AVRootloader.exe und drückt "Make Key". Die Software modifiziert dann
+                           den Source im AVRootloader.asm
+
+5.) nun alles kompilieren
+5.1.) im Output Fenster vom AVR Studio den Wert [.cseg] Used auslesen und in BootCodeSize übernehmen
+5.2.) erneut kompilieren, jetzt ist die korrekte Bootloader Startadresse im FLASH berechnet
+
+6.) das HEX File auf den AVR flashen
+
+7.) im Ordner \test\ findet sich ein Test Projekt für ATmega128, dieses öffnen und MakeFile abändern für den Ziel AVR, ebenfalls PORT und PIN an dem der
+    1Wire hängt anpassen falls dies in AVRootloader.asm geändert wurde
+
+8.) im Ordner \Windows\ das Program AVRootloader.exe starten
+8.1.) in der FLASH ComboBox das HEX File das man flashen möchte auswählen
+8.2.) Port und Baudrate einstellen, Port kann auch direkt eingegeben werden
+8.3.) auf Button "Program" klicken
+8.4.) AVR reset'en oder Spannung aus/einchalten
+8.5.) AVRootloader sollte jetzt flashen und wenn fertig sofort die Anwendung starten
+
+9.) im 1Wire.jpg findet ihr einen Schaltplan
+
+10.) ATmega128 flashen mit löschen bei 115200 Baud = 16 Sekunden, mit Verschlüsselung 22 Sekunden.
+
+Wenn ihr das Test.hex geflasht habt so überwacht dieses den 1Wire Pin. Sobald also der AVRootloader.exe versucht eine Verbindung zum Bootloader aufzubauen
+wird der IRQ ausgelöst und in den Bootloader gesprungen. Ein Drücken des RESET oder Spannung aus/einschalten entfällt, alles geht vollautom.
+
+Die AVRootloader.exe kann per Parameter aufgerufen werden:
+
+AVRootloader.exe -PCOM1 -B115200 -SBOOT -Dc:\programme\atmel\AVRootloader\Test\ -FTest.hex -ETest.eep -K5441C8CA4DDF8EEA19AAAFD877AEB488 -Aepvc
+
+-P COM Port, oder AUTO für Autodetektion
+-B Baudrate, zb. -B115200
+-S BootSign, zb. -SBOOT
+-D Arbeitsverzeichnis in dem das HEX/EEP File liegt
+-F HEX File für den FLASH oder ein *.ACY File (precompiliertes und eventuell verschlüsseltes binäres Script)
+-E HEX File für das EEPROM
+-K HEXadezimales Passwort falls UseCrypt=1 im Bootloader
+-V Versionsnummer, zb. -V010203040C, 1.2.3.4 Numner in HEX und 0C in HEX um nur 1.2. nummer zu überprüfen
+-A Automatikmodus/Befehle für den Bootloader
+ e erase, lösche FLASH vor dem Programmieren, wird diese Option nicht angegeben so gelten die Einstellungen in AVRootloader.exe
+ p program, schreibe FLASH/EEPROM mit der Datei die bei -F/-E angegeben wurde
+ v verify, Überprüfe den FLASH Inhalt, wird diese Option nicht angegeben so gilt das was in AVRootloader.exe eingestellt wurde
+ c close, Beende AVRootloader nach den Aktionen, aber nur falls keine Fehler aufgetreten sind
+
+Falls mit -F eine *.ACY Datei angegeben wurde so enthält die sowohl den FLASH als auch EEPROM Inhalt wenn das so beim Kompilieren der Datei angegeben wurde.
+Wurde der Bootloader im AVR mit expliziter Verschlüsselung kompiliert so erzeugt der PC-Bootloader immer ACY Dateien mit verschlüsselten Daten. Somit kann man
+beim Endkunden den PC-Bootloader ausliefern ohne ein Passwort mitzugeben. Der Endkunde spielt die verschlüsselte ACY Datei per PC Software auf den AVR ohne das Passwort zu kennen.
+ACHTUNG! in diesem Fall sollte natürlich in AVRootloader.ini der Eintrag Password=XYZ auch gelöscht werden ;)
+
+Eine schon laufende Instanz vom AVRootlaoder.exe wird beim zweiten Aufruf die Parameter übernehmen.
+Das heist immer nur eine Instanz von AVRootloader ist aktiv.
+Ihr könnte also eine Verküpfung auf AVRootloader ziehen und darin diese Parameter für euer Projekt einstellen.
+
+Sollten einige der Parameter oben nicht in der Kommandozeile definiert sein so nimmt die PC-Software die letzten gespeicherten Einstellungen.
+
+Wichtige Dateien:
+- AVRootloader.asm, ASM Datei mit dem Bootloader der auf dem AVR läuft
+- AVRootloader.inc, Include zur ASM Datei
+- AVRootloader.exe, Windows Program des Bootloaders
+- AVRootloader.ini, Konfigurationsdatei des Bootloaders, speichert alle Einstellungen ab
+- AVRootloader.dev, Device Liste, enthält alle Informationen zu allen AVRs die es gibt,
+                    diese Liste wird immer benötigt, für ein automatisches Erzeugen dieser Datei sollte sie gelöscht werden,
+                    wenn auf dem Rechner die neuste Version vom AVR Studio installiert ist. Aus den XML Dateien im Ordner
+                    \AVR Tool\PartDescriptionFiles\ wird dann diese Datei erneut erzeugt
+- AVRootloader.dll, DLL mit den Interfaces der PC-Software für eigene Anwendungen, ist nicht zwingend erforderlich und kann auch gelöscht werden
+- AVRootIntf.pas,   Delphi Source zum Zugriff auf die DLL, ist nicht zwingend erforderlich und kann gelöscht werden
+
+Features:
+- Autobaudrate Detektion
+- feste Baudrate möglich
+- 1Wire, nur ein PIN wird benötigt
+- 2Wire, normales RS232
+- PC-Software erkennt autom. ob 1-Wire oder 2-Wire Modus
+- beide Modis die Pegel invertierbar
+- zu schreibende/lesende Daten und Befehle sind per 16 Bit CRC abgesichert
+- sehr kompakt
+- Passwort
+- optimiertes programmieren des FLASHs
+- implizites verify beim Schreiben/Löschen des FLASHs und Schreiben des EEPROMs
+- Verschlüsselung der FLASH/EEPROM Daten per XTEA mit modifiziertem doppelten Cipher Block Chaining Feedback Modus
+- HEX-Editor zum Lesen/Schreiben/Ändern des EERPOMs
+- HEX-Editor zum Lesen/Schreiben/Ändern des SRAMs, VORSICHT ist gefährlich
+- falls AVR Studio korrekt installiert wurde so zeigt der SRAM-HEX-Editor zu den Speicherzellen den Namen der Register/Ports usw. an.
+  Farblich ist Pink=Registerfile, Blau=IO Bereich/Ports, Grün=Speicherbereich des Buffers den der Bootloader benutzt, Weiß=Stack
+- unterstützt alle 8Bit-AVRs die Self-programierbar sind und einen SRAM mit mehr als PageSize*2 Bytes haben (siehe AVRootloader.asm)
+- Versionsverwaltung der eigenen Software
+
+Danksagung geht an Peter Dannegger. Von ihm habe ich die UART Delay, UART Getc + CRC und meine Baudraten Erkennung angelehnt.
+HEX Editor stammt von Mirkes.de wurde aber nachgebessert.
+
+Version 5.0
+- einige Verbersserung beim Verbindungsaufbau, speziell Timeout Behandlung
+- neu Spezial Funktionen "read_flash" und "write_flash" um den FLASH aus der eigenen Anwednung lesen und auch schreiben zu können
+- write_flash() arbeitet dabei ohne Restriktionen in der Ausrichtung der Speicheraddressen und Größen. Man kann also durchaus
+  einige Bytes aus einem SRAM Buffer mitten in den FLASH scheiben ohne dabei Rücksicht auf die Pages nehmen zu müssen.
+- das Test Projket im Ordner \test\ wurde dementsprechend angepasst und demonstriert nun auch wie man aus der Anwendung
+  heraus das Passwort in BootKey neu setzen kann
+
+Version 4.0
+- Verbindungsaufbau wurde geändert, läuft nun wesentlich stabiler und sicherer
+- anderes Verhalten bei UseWDT=1, nun wird der Watchdog explizit aktiviert und auf 2 Sekunden Timeout programmiert. Sollte innerhalb
+  des Bootloaders ein Timeout entstehen so wird ein WDT Reset durchgeführt. Die PC Software sendet dazu bei Inaktivität ein Idle Kommando
+  damit der Bootloader den WDT zurücksetzen kann. Somit erkennt sowohl der Bootloader und auch die PC-Software wenn es zu einem
+  ungewollten Verbindungsabbruch kommt. Bei einem solchen wird der Bootloader nach max. 2 Sekunden einen RESET durchführen und die
+  PC-Software die Verbindung automatisch beenden.
+- UseBootVector eingebaut. Damit kann man am FLASH Ende einen Sprung zum Bootloader Start eingefügt werden. Dieser Vektor ist hilfreich wenn
+  man den Bootloader direkt per JUMP aufrufen möchte. 
+- UseSpecialFuncs eingebaut. Bei ATmegas mit großer Bootsection verbraucht der Bootloader serh wenig Platz im FLASH. Somit steht in der Bootloader
+  Sektion noch sehr viel ungenutzer FLASH zur Verfügung. Diesen kann man mit eigenen Tabellen oder Code ausfüllen. Einige Beispiele für
+  solche Funktionen findet man im Include "Special.inc". Aufrufen aus WinAVR GCC kann man sie wie im Ordner \test\AVRootloader.h gezeigt.
+- Versionsnummernverwaltung eingebaut. Damit kann man zur eigenen Anwendung eine Versionsnummer verwalten lassen.
+  Diese Versionsnumer kann bei Updates mit aktivierter Verschlüsselung auch geprüft werden. In einem solchen Fall akzeptiert der Bootloader
+  nur verschlüsselte Daten deren Versionnummer gleich oder höher der im AVR programmierten ist.
+- die frei definierbare BootMsg geht jetzt auch mit aktivierter Verschlüsselung
+- neue Möglichkeiten beim Verbindungsaufbau. Die PC-Software kann vor einem Verbindungsaufbau ein frei definierbaren String senden. 
+  Dieser wird in der AVRootloader.ini im Wert AppCmd= gespeichert. Auf diesen String kann die Anwendungssoftware in deren UART Funktionen
+  reagieren und den Bootloader starten (per WDT oder direktem jump). Additional kann die Anwednung vorher auch noch einen String an die
+  PC-Software zurück senden. Wenn diese Feature benutzt werden soll so muß in AVRootloader.ini in AppCmdResponse= dieser String gespeicheret werden.
+  Die PC-Software wartet dann nach senden von AppCmd auf dieses AppCmdResponse bevor sie weitermacht. Wurde dieser Wert empfangen so kann die
+  PC-Software einige Zeit warten wenn in der INI bei [Timeouts] AppCmd= gesetzt wird. Ein Wert von zb. 50 bedeutet eine Wartezeit von 50 Milisekunden.
+  Erst nach all diesen Schritten wird mit dem Bootloader ein Verbindungsaufbau versucht.
+- [Timeouts] KeepAlive= ist neu. Dieser Wert stellt das Intervall in Millisekunden dar das benutzt wird wenn die PC-Software mit dem Bootloader
+  verbunden ist und periodisch überprüft ob der AVR noch verbunden ist. Dieser Wert sollte auf 500 stehen und garantiert bei UseWDT=1 das der Bootloader
+  somit periodisch seinen Watchdog Timer zurücksetzt. Siehe oben WDT Verhalten.
+- [Timeouts] MaxPacketSize= neu eingebaut. Damit wird die maximale Anzahl an Bytes festgelegt die beim Senden großer Datenböcke benutzt werden soll.
+  Sendet man also zb. 1024 Bytes für das EEPROM und hat MaxPacketSize=256 so wird dieser Datenblock in Blöcke a 256 gesendet und jeder einzeln per CRC
+  abgesichert und auf die Empfangsbestätigung vom AVR gewartet. Normalerweise sollte dieser Wert leer sein.
+- [Timeouts] Connect= ist neu. Dieser Timeout stellt die Wartezeit der PC-Software dar die sie auf ene Rückmeldung vom AVR bei deim Verbindungsaufbau
+  warten soll.
+
+
+Version 3.0
+- Versionsverwaltung für eure eigene Software in AVRootloader.ASM eingebaut.
+  Die Versionsnummer ist 4 Bytes groß und wird in den letzten 4 Bytes im Anwendungsflash gespeichert.
+  Bei AVRs mit Bootsektion exakt die 4 Bytes vor BootStart, also letzten 4 Bytes des nutzbaren FLASHs für eure Anwendung.
+  Bei AVRs ohne Bootsektion steht in den letzten 2 Bytes der JMP zu Main. Deshalb steht die Version in den 4 Bytes davor.
+  Ihr könnt also in eurer Software per LPM auf diese Versionsnummer zugreifen.
+  Der Bootloader sendet diese Versionsnumer beim Connect zur PC-Software. Diese stellt die Versionsnummer im "Device Information"
+  Fenster dar.
+  In AVRootloader.ASM könnt ihr per UseVersioning=1 die Versionsverwaltung aktivieren.
+  Wird die Verschlüsselung als Updatemöglichkeit benutzt kann bei einem Update eurer AVRs mit einem kompiliertem ACY File eine
+  Versionsnummernprüfung erfolgen. Dabei vergleicht der Bootloader im AVR die im ACY verschlüsselt gespeicherte neue Versionsnummer
+  mit der aktuell installierten Versionsnummer. Ist die neue kleiner als die alte wird ein Fehler zurückgemeldet und der AVR kann
+  nicht programmiert werden. In der PC-Software sind 4 Eingabefelder in denen ihr eure Versionsnummer eingeben könnt die bei der
+  Kompilation einer ACY Datei benutzt werden soll. Über die "Verify Mask" könnt ihr bestimmen welche Teile der Versionsnummer im AVR
+  überprüft werden sollen. Somit könnt ihr ein "Back-Update" des AVRs durchführen indem ihr einfach eine ACY Datei kompiliert und alle
+  4 Checkboxen abhackt.
+  Diese Versionsverwaltung ist kryptographisch sicher, also nur ihr als Besitzer des Paßwortes bestimmt das Verhalten der Versionsverwaltung.
+  Alle Daten sind verschlüsselt, sowohl in der erzeugten ACY Datei wie auch bei der Datenübertragung zum AVR. Nur der Bootloader im
+  AVR entschlüsselt und vergleicht diese Versionsnummern.
+  Diese geschützte Versionsverwaltung funktioniert beim Schreiben des FLASHs wie auch EEPROMs. Dafür muß aber die zwingende Verschlüsselung
+  des FLASHs und EEPROMs in AVRootloader.ASM aktiviert sein.
+- Autodetektion der COM Ports auf dem PC.
+  Dabei werden die installierten und verfügbaren COM Ports im System ermittelt und mit ihren FriendlyName angezeigt.
+- Autodetektion des COM Ports an dem der Bootloader angeschlossen ist.
+  In der COM Port Auswahlliste einfach "AUTO" auswählen. Diese könnt ihr auch in der Kommandozeile nutzen. Ist AUTO gewählt und es wird
+  eine Verbindung aufgebaut dann versucht die PC-Software jeden COM Port in der Auswahlliste. Die Anzahl der Trials bei diesem Versuch pro
+  COM Port kann in der AVRootloader.INI -> [System] -> ConnectTrials=? eingestellt werden.
+  Damit dies aber funktioniert muß euer Gerät autom. in den Bootloader wechseln können. Es gibt mehrere Wege, zb. PinChange ISR am
+  RX Pin des Bootloader, oder RTS-Leitung der RS232 am RESET des AVRs und RTSPulse/RTSInterval in AVRBootloader.ini entsprechend konfiguriert.
+- Neu ist die Möglichkeit das die PC-Software bei der Verbindung einen definierbaren String sendet. Eure Anwendung im AVR, die selber die UART
+  benutzt, kann diesen Befehl dann benutzen um in den Bootloader zu springen.
+  Dazu konfiguriert ihr in AVRootloader.INI -> [System] -> AppCmd=
+  Der Wert in AppCmd kann Sonderzeichen enthalten zb. so AppCmd=RunBoot/0ATest//
+  Ein Backslash mit anschließend einem HEXadecimalen Wert, immer zwei Zeichen lang.
+  Ein Doppelslash hebt den ESCapecode auf.
+  VORSICHT! ihr könnt nicht das Zeichen #13 -> /0D benutzen, leider. Das liegt daran das die Baudrate Detection im Bootloader dieses
+  Sonderzeichen auswertet. Wollt ihr es denoch benutzen so müsst ihr den Bootloader ohne "Baudrate Detection" konfigurieren, also mit
+  fest eingestellter Baudrate (was meistens dann auch Sinn macht).
+- Auswahlbox für das BootSign in PC-Software eingebaut.
+  Man kann, wenn man 1-Wire Kommunikation benutzt, alle AVRs eines Gerätes am gleichen 1-Wire-Pin verdrahten. Alle AVRs, können unterschiedliche
+  Typen sein, benutzen den AVRootloader. Nun kann man mit der PC-Software all diese AVRs updaten.
+- Fehler beim Auswerten der Kommandozeile beseitigt, Leerzeichen im Pfad wurde als Separator erkannt.
+- Fehler bei der BootMsg beseitigt. Die BootMsg wurde in AVRotloader.asm verschoben und kann nun auch mit der Verschlüsselung
+  benutzt werden.
+- Der Wert im Eingabefeld "ACY Info" in der PC-Software wird beim Kompilieren einer ACY Datei in diese lesbar gespeichert.
+  Neben diesem Wert auch die lesbare Versionsnummer. Mit einem einfachen Texteditor kann man diese Infos aus einer ACY Datei auslesen.
+- Kompatibilität zum Bootloader Version 1 und 2 sollte gewährleistet sein.
+- einige kleinere Darstellungsfehler beseitigt
+- alle Dateien wie AVRootloader.dev und AVRootloader.ASM wurden auf die neusten AVRs aktualisiert (AVR Studio 4.15 Build 623)
+- neuer Parameter -SBOOT für die Kommandozeile eingebaut, damit kann man das BootSign für den Bootloader-Connect vorgeben
+- für diejenigen die die AVRootloader.DLL benutzen. Diese ist nicht kompatibel zur alten Version !
+
+
+Version 2.0
+
+- die SIGNATURE_CRC wurde entfernt. Der neue ATtiny88 überschneidet sich mit dem ATmega161 beim Verfahren der Version 1.0
+- nötige Änderung dafür ist in AVRootloader.asm -> BootSign: die 4 Bytes
+- die PC-Software kann aber weiterhin mit der Version 1.0 benutzt werden, ist also abwärtskompatibel
+- AVRootloader.dev aktualisert auf die neusten AVRs und beim ATMega161/ATmega161comp. (ATmega162 im 161 Kompatibilitätsmodus) 
+  Fehler aus den AVR Studio XML Dateien beseitigt. ATMEL hat dort falsche Angaben gemacht.
+- die PC-Software ist intern komplett neu geschrieben worden. Wer Interesse hat kann die AVRootloader.DLL benutzen um die
+  komplette Funktionalität der PC-Software in seine eigene Anwendung zu integrieren. Diese DLL implementiert die Funktionalität über
+  Interfaces, Delphi Header in AVRootIntf.pas. Über diese Schnittstelle kann man auch eigene Communications-Interfaces vorgeben
+  über die dann die AVRootloader Schnittstelle kommuniziert, zb. AVR309 USB oä.
+- Über AVRootloader.ini in Section [Timeouts] RTSPulse=? kann man das Verhalten beim Verbindungsaufbau der PC-Software von der RTS-Leitung
+  der RS232 einstellen. Man kann über diese Option also den RTS PIN der RS232 zb. für x Millisekunden von HIGH auf LOW und wieder HIGH ziehen.
+  Damit könnte man, über Serienwiderstand und Shottky Diode den RTS Pin auf den RESET Pin des AVRs klemmen. Bei jedem Verbindungsaufbau der PC-Software
+  zum Bootloader wird somit autom. der AVR in den Reset versetzt.
+- Wer möchte kann ein Copyright String oä. in AVRootloader.asm einbauen. Dieser String wird dann in der PC-Software in der Device Information angezeigt.
+  Das geht so:
+
+BootSign:	.db		"BOOT"
+BootInfo:	.db		SIGNATURE_001, SIGNATURE_002, BootVersion, BootPages
+BootMsg:    .db     SUCCESS, "Hello World"
+BootEnd:
+
+  Wichtig ist das das erste Byte immer SUCCESS ist.
+  
+- Das Timeout-Handling in der Baudratedetektion wurde geändert. Sollte innerhalb des Timeouts, zb. 250ms, eine gültige Baudrate detektiert worden sein so verlängert sich
+  der Timeout ab diesem Moment um weitere 250ms. Entweder der Bootloader empfängt das korrekte BootSign: (zb. BOOT) und springt in den Kommandomodus oder aber
+  die Baudrate-Detektion startet erneut mit weiteren 250ms. Wenn also Ruhe auf der RX-Leitung ist, so startet die Applikation wie gewohnt nach dem Timeout.
+  Wenn aber eine PC-Software versucht eine Verbindung aufzubauen so bleibt der Bootloader solange in der Baudrate-Detektion bis die PC-Software aufhört eine
+  Verbindung aufzubauen. Diese Vorgehensweise macht das Verfahren wesentlich robuster. In Version 1.0 war der Timeout ein Gesamt-Timeout des Verbindungsversuches. 
+  Nach den zb. 250ms wurde immer die Applikation gestartet, egal ob eine PC-Software einen Verbindungsaufbau versuchte oder nicht.
+
+Gruß Hagen
+
+XTEA_Enc code
+
+    procedure TEAEnc(const Source; var Dest; var Feedback; const Key);
+    const
+      TEA_Delta: Cardinal = $9E3779B9;
+    type
+      TLongArray = array[0..3] of Cardinal;
+      PLongArray = ^TLongArray;
+    var
+      I: Integer;
+      A,B,Sum: Cardinal;
+      S,D,F,K: PLongArray;
+    begin
+      Sum := 0;
+      S := @Source;
+      D := @Dest;
+      F := @Feedback;
+      K := @Key;
+      A := S[0] xor F[0];
+      B := S[1] xor F[1];
+      for I := 0 to 15 do
+      begin
+        Inc(A, (((B shl 4) xor (B shr 5) + B) xor (Sum + K[Sum and 3])));
+        Inc(Sum, TEA_Delta);
+        Inc(B, (((A shl 4) xor (A shr 5) + A) xor (Sum + K[(Sum shr 11) and 3])));
+      end;
+      A := A xor F[0];
+      B := B xor F[1];
+      for I := 0 to 15 do
+      begin
+        Inc(A, (((B shl 4) xor (B shr 5) + B) xor (Sum + K[Sum and 3])));
+        Inc(Sum, TEA_Delta);
+        Inc(B, (((A shl 4) xor (A shr 5) + A) xor (Sum + K[(Sum shr 11) and 3])));
+      end;
+      F[0] := F[0] xor A;
+      F[1] := F[1] xor B;
+      D[0] := A;
+      D[1] := B;
+    end;
+
+
+  Dest = Source xor Feedback
+  Dest = XTEA(Dest) die ersten 16 Runden
+  Dest = Dest xor Feedback
+  Dest = XTEA(Dest) die zweiten 16 Runden
+  Feedback = Feedback xor Dest
+  
+  Das zweifache XOR'ing des Feedback vor den ersten 16 Runden und vor den zweiten 16 Runden verändert den XTEA auf eine Weise das eine
+  Alles oder Nichts Entschlüsselung entsteht. Ändert sich also nur 1 Bit in den Daten so wird der komplette Datenblock und alle auf ihn
+  nachfolgenden Datenblöcke falsch entschlüsselt. Der letzte Datenblock enthält immer eine Signatur und die Addresse an die die daten
+  im FLASH oder EEPROM geschrieben werden sollen. Eine fehlerhafte Entschlüsselung auf Grund eines Bitfehlers bei der Übertragung oder
+  der Manipulation der Daten durch Dritte wird also zuverlässig erkannt.
+  
+  XTEA_dec
+  
+  Buffer = Source xor Feedback
+  Dest = XTEA_dec(Source) die ersten 16 runden
+  Dest = Dest xor Feedback
+  Dest = XTEA_dec(Dest) die zweiten 16 runden
+  Dest = Dest xor Feedback
+  Feedback = Buffer
+
+
+  Der Entschlüsselungscode für den AVR ist so aufgebaut das im SRAM folgende Blockstruktur vorliegt (1 Block = 8 Bytes)
+
+  [Feedback] [Buffer] [Source 0] [Source 1] [Source 2] [Source x]
+
+  zuerst wird Source in 8 Register geladen -> A,B
+  nun wird Buffer = Feedback xor A,B berechnet
+  Dann A,B inplaced 16 Runden entschlüsselt
+  Dann A,B mit Feedback xor verkünpft
+  Dann A,B inplaced 16 Runden entschlüsselt
+  Dann Feedback mit A,B xor verknüpft,
+  Feedback enthält nun den entschlüsselten Datenblock
+  Buffer wird zum neuen Feedback
+
+  im Speicher lag folgendes
+
+  [Feedback] [Buffer] [Source 0] [Source 1] [Source 2] [Source x]
+
+  und jetzt
+
+  [Dest 0] [Buffer] [Source 0] [Source 1] [Source 2] [Source x]
+
+  [Buffer] wird zum nächsten [Feedback] für [Source 1]
+
+  [Dest 0] [Feedback] [Buffer] [Source 1] [Source 2] [Source x]
+
+  nun beginnt obiger Vorgang erneut und es entsteht
+
+  [Dest 0] [Dest 1] [Feedback] [Buffer  ] [Source 2] [Source x]
+  [Dest 0] [Dest 1] [Dest 2  ] [Feedback] [Buffer  ] [Source x]
+  [Dest 0] [Dest 1] [Dest 2  ] [Dest X  ] [Feedback] [Source x]
+
+  Der Dest X Block = letzte Block enthält 8 zusätzliche Datenbytes in denen die ersten 4 Bytes aus den
+  ersten 4 Bytes des BootKey bestehen. Die nächsten 4 Bytes vom Dest X Block enthalten die Addressinformationen
+  an die im FLASH/EEPROM geschrieben werden soll.
+
+  Bei der nächsten Nachricht wird der Inhalt vom [Feedback] wieder an den SRAM_START kopiert.
+
+  Bevor das System überhaupt die verschlüsselten Datenblöcke sendet wird es einen 16 Bytes verschlüsselten
+  Initialiserungsrecord senden. Dieser besteht unverschlüsselt aus 8 Bytes Zufallsdaten, 4 Bytes mit den Werten in
+  BootInfo: und die ersten 4 Bytes des Passwortes. Das ist der Kommandocode $FE $FE. Das Feedbackregister dieses
+  1. Nachrichtenblocks wird mit 0 gefüllt.
+
+  Durch diesen speziellen Doppel-CBC-Modus mit Rückverknüpfung der verschlüsselten Daten per XOR in das nächste Feedback
+  wird eine Verkettung aller Blöcke untereinander erreicht. Da wir den allerersten Datenblock mit 8 Zufallsbytes befüllen bedeutet dies
+  das die komplette Nachricht immer pseudozufällig ist, selbst wenn sie immer im gleichen Passwort und Nachricht verschlüsselt wurde.
+  
+
+
+
+
+

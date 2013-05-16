@@ -1,0 +1,130 @@
+
+\documentclass[11pt,    % schriftgröße 11
+               twoside, % doppelseitige Seiten
+               a5paper, % A5, statt amerikanisches letter-format
+               parskip=half
+               ]{scrartcl}
+               
+\usepackage[latin1]{inputenc}  % eingabecodierung um deutsche Sonderzeichen 
+                               % natürlich eingeben zu können öäü
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage{xcolor}
+
+\usepackage{microtype}
+
+\usepackage{ifthen}     % conditional 
+\usepackage{url}        % provides \url command
+\usepackage{graphicx}   % für bilder
+\graphicspath{{../../art/}}   % suchpfad für bilder
+                        % damit reicht \includegraphic{bild},
+                        %        statt \includegraphic{pic/bild} 
+                        %  prektisch für low und hi-res varianten
+ 
+
+%\usepackage{amsmath} % mathematik befehle
+%\usepackage{amssymb} % mathematik symbole
+
+\usepackage{paralist}  % compact enums and lists
+\usepackage{array}     % stellt den Befehl \newcolumntype bereit 
+\usepackage{colortbl}  % farbliche Tabellen
+\newcolumntype{C}[1]{>{\centering}p{#1}} 
+\newcolumntype{L}[1]{>{\raggedright}p{#1}} 
+\newcolumntype{R}[1]{>{\raggedleft}p{#1}} 
+
+
+
+\usepackage{geometry}           % erweiterte Seitengeometriefunktionen
+\usepackage[automark]{scrpage2} % Koma Seitenstile
+
+
+% Dieses File nicht direkt editieren - wird aus 'srclatexBridge.tex' erzeugt.
+\input{srclatexBridge_pp.tex}  % bindet auch hyperref mit ein
+
+
+\geometry{a5paper,left=22mm,right=22mm, top=25mm, bottom=3cm}
+
+
+\setlength{\tabcolsep}{5pt}
+\setlength{\extrarowheight}{0pt}
+
+%\setlength{\parskip}{1.5ex}  % Abstand zwischen Absätzen
+%\setlength{\parindent}{0em}  % kein Einzug bei neuen Absätzen
+
+
+% umgebung für Anmerkungen defnieren
+\newenvironment{Anmerkung}{\par\begin{itshape}\underline{Anmerkung:}\\}{\end{itshape}}
+
+
+
+\definecolor{colorBack}{rgb}{.58,.21,.20}
+\definecolor{sectionColor}{rgb}{0.31,0.51,0.74}
+
+
+\newcommand{\normalModeName}{\ifthenelse{\WCindividualCfg=0 \or \WCmonocolor=0}{Ein\-farb-Mo\-dus}{Stan\-dard-Mo\-dus}}
+
+
+%% define Pagestyle
+%\addtokomafont{pagenumber}{\color{white}}
+%\newcommand{\HeadBox}[1]{  \colorbox{colorBack}{\hfill\textcolor{white}{#1}\hfill}}
+%\newenvironment{HeadBox}{
+% \def\FrameCommand{\fboxsep=1cm \colorbox{colorBack}}
+%  \MakeFramed {\advance\hsize-1.1\width\FrameRestore}}
+%{\endMakeFramed}
+
+\pagestyle{scrheadings}
+%\ohead{\HeadBox{\today}}
+%\ofoot{\HeadBox{\pagemark}}
+\ohead{\today}
+\chead{[Word Clock]}
+\cfoot{\headmark}
+\ofoot{\pagemark}
+\setheadsepline{.4pt}
+\setfootsepline{.4pt}
+%% end define Pagestyle
+
+\addtokomafont{section}{\color{sectionColor}\mdseries}
+\addtokomafont{subsection}{\color{sectionColor}\mdseries}
+\addtokomafont{subsubsection}{\color{sectionColor}\mdseries}
+
+
+
+
+
+\begin{document}
+
+
+
+
+
+\input{titlepage.tex}
+
+
+\clearpage
+\linespread{1.0} % Zeilenabstand 1,0
+% Inhaltsverzeichnis	
+	\pdfbookmark[1]{\contentsname}{toc}\tableofcontents
+%	\input{diplomarbeit.toc}
+%\tableofcontents
+
+
+
+\clearpage
+
+\input{Inbetriebnahme.tex}
+\clearpage
+\input{Training.tex} 
+\clearpage
+\input{EinAus.tex}
+\clearpage
+\input{Uhrzeit.tex}
+\clearpage
+\input{Beleuchtung.tex}
+\clearpage
+\input{DisplayModi.tex}		
+\clearpage
+\input{AutoSave.tex}
+
+
+\end{document}

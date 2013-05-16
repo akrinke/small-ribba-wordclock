@@ -1,0 +1,119 @@
+WordClock Change Log
+====================
+
+
+V 0.12 (416)
+  * Schwaben-Modus (ossi + 20 vor/nach)
+  * Auto-Aus-Animation konfigurierbar mit Vorschau
+  * Deaktivierbares "IT IS" für englische Front
+  * Demo modus kann über Demo-Modus-Taste wieder verlassen werden
+  * PWM modus für bessere Darstellung dunklerer Farben geändert (siehe BUG011_027)
+  * PWM Stufen für linearere Erscheinung geändert 
+  * optisches Feedback bei "Helligkeit übernehmen" hinzugefügt (kurzzeitige Displayabschaltung)
+  * gefixt BUG011_025 (Absturz bei Helligkeitskalibrierung)
+  * gefixt BUG011_026 (Ambilight wird beim automatischen Ausschalten nicht (in jedem Fall) mit ausgeschaltet) 
+  * gefixt BUG011_027 (Niedrige Farbqualität bei niedrigen Helligkeiten)
+  * gefixt BUG011_028 Fehler bei Zeitüberblendung - Auto-off-Animation ist nun unabhängig von Zeitüberblendung
+  * verbessert BUG011_29 Flackern be Zeitüberblendung reduziert (immer noch nicht perfekt!)
+  * gefixt BUG011_030 (SW Absturz wenn "flasche" Taste im Aus-Zustand gedrückt wurde (Statemachine wird nun immer geupdated))
+  * aktualisiertes Handbuch
+    --> neue Features
+    --> "2.1 Übersicht der möglichen Kommandos" enthält nun platz für Benutzer zum Eintragen seiner Tastennamen
+
+
+
+    
+    
+complete (mixed english/german)
+
+V 0.12 (416)
+  * swabian idiom selectable
+  * made auto-off-animation configurable with preview
+  * deactivatable it is in english front
+  * demo mode leavable with additional demo mode key press 
+  * changed PWM mode, now also dark colors are displayed vividly (see BUG011_027)
+  * improved the visual linearity of the PWM-steps
+  * added an acknowledge (display 500ms off), when overtaking a new brightness
+  * fixed BUG011_025 (crash on brightness calibration)
+  * fixed BUG011_026 (ambilight will not be switched off on AutoOff with activated Animation (merged from edimahler))
+  * fixed BUG011_027 (low  color quality on low brightenss)
+  * fixed BUG011_028 bug in fade time, now auto-off-anim-fade-time is independent of time-change-fade-time
+  * improved BUG011_29 (flickering at time-change-fades (sometimes still not perfect!))
+  * fixed BUG011_030 (SW crashed when pressing a "wrong" button while clock was off (now state machine always updated)
+  * updated manual 
+    --> to new features
+    --> remote command table with extra space for user key names
+
+    
+V 0.11 (354)
+  * fixed BUG08_002 (brighness control does not work)
+  * added calibration of auto brightness adaption
+    --> new IR-Command
+    --> new eeprom params
+    --> new logging option
+  * added self configuring LaTeX user manual (see readme)
+  * made other GPOs IR-controllable (taken from wichtels code)
+    --> new eeprom params
+    --> new IR-Commands
+  * fixed BUG09_022 (auto switch off) changed on/off logic
+  * made auto save optional (user.h USER_AUTOSAVE)
+  * added eeprom parameter write back at On/Off IR-cmd
+  * added auto off animation
+  * fixed bug BUG010_023 (fast display mode switching stops fading)
+  * moved step size of on/off time as constant to header
+
+
+V 0.10 (339)
+    * deactivatable "ES IST" via display mode key (both german front designs)
+      (merge from wichtel - but changed order)
+    * Bootloader Support:
+      If 'R' was received via UART, the Watchdog will be enabled to reset the device.
+      The wdt is deactivated right after system start up.
+    * added a Set-Time-Indicator (hour for word clock) to signalize 
+      Set-Time-Mode if no minute word is active
+    * reduced brightness for night hours in set time mode
+    * save main mode (normal, fade, pulse) and active color preset
+    * change BAUD_ERROR macro
+    * removed atmega88 configuration
+    * DCF77 changed, so that two successful received frames are now needed,
+      befor the dcf time will be taken over
+    * IRMP-Version 1.7.2: bugfix: added timeout for NEC repetition frames to avoid "ghost commands"
+                          added some (less relevant) protocols
+
+    * fixed BUG09_018 (while entering time a timeupdate destroys current display)
+    * fixes BUG09_019 (reported by Wichtel) (new IRMP-Version)
+    * fixed BUG09_020 (reported by Roman) DCF-Initialisierung <=6 instead <=7
+    * fixed BUG09_021 (Ambilight connected to OUTG2 in SW instead of OUTG1)
+    * fixed bug that occurs in mono color if switched back to normal mode 
+      -> no update of display was done
+
+V 0.9 Patch 5
+    * fixed BUG09_017 (set second to 0, when new DCF77 time will take over - prevent a minute jump) 
+V 0.9 Patch 4 (312)
+    * fixed BUG09_015 (after enter OnOff-Time no further action is possible)
+    * fixed BUG09_016 (last Ir-Command is ignored in training) 
+V 0.9 Patch 3 (311)
+    * fixed BUG09_009 (crashes after IR-Kommands)
+    * fixed BUG09_011 (training bug)
+    * fixed BUG09_012 (casing on include usermodes.c)
+    * fixed BUG09_013 (1:00 - 1:04 and 1:05-1:09 's')
+    * fixed BUG09_014 (brightness control does not work after setting time)
+    * fixed wrong command handler in display_x-header
+    * fixed default values for color profiles
+    * extracted inits of states from user_init to own routine in usermodes.c 
+V 0.9 Patch 2 (302)
+    * fixt BUG09_010 (EIN <-> EINS) 
+V 0.9 Patch 1 (300)
+    * fixt BUG09_008 (falsche Zeitanzeige) 
+V 0.9  (298)
+    * Unterstützung für neue (3 sprachige) deutsche Front
+    * Unterstützung für TIX-Clock
+    * kurze Anzeige von Submodi (Farbprofilauswahl, Sprachvariante)
+    * Helligkeits-Offset wird abgespeichert
+    * 24h Zeiteingabe (8-20Uhr: hell, 20-8Uhr: dunkel)
+    * Standardeeprom-Werte im Flash
+    * Ein/Aus-Schalt-Zeiten
+    * Pulsierender Modus
+    * neue IRMP-Version 
+
+

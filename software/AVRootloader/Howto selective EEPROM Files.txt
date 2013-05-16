@@ -1,0 +1,25 @@
+Diese Anleitung beschreibt wie man selektive EEPROM Updates erzuegen kann:
+
+1.) AVRootloader.exe starten und AVR mit RS232 verbinden, es wird vorausgesetzt das auf diesem AVR schon der Bootloader läuft
+2.) EEPROM aus dem AVR auslesen über Page "EEPROM Content" und Button "read from Device"
+3.) nun im HEX Editor die Zellen die man ändern möchte mit neuen Werten modifizieren
+4.) nun mit der Maus alle Speicheraddressen die man updaten möchte markieren (schwarz)
+5.) rechten Mausklick in den Editor und im Popupmenu "select Cells" auswählen, danach sollten alle markierten Bereiche rot hervorgehoben sein
+6.) wiederhole Schritt 5.) je nach Bedarf
+7.) auf Button "save to File" drücken und *.EEP Datei auswählen
+8.) fertig, die EEP Datei enthält nun nur die vorher markierten Speicherzellen, sie kann nun auf der ersten Page der Software ausgewählt werden,
+    von dort direkt im AVR gespeichert werden oder als verschlüsselte ACY-Datei kompiliert werden (siehe: Howto use Encryption.txt)
+
+This ReadMe describe how to make selective EEPROM updates:
+
+1.) start AVRootloader.exe und connect to AVR trough RS232, on AVR is installed my Bootloader
+2.) read EEPROM from AVR, go to Page "EEPROM Content" an click button "read from Device"
+3.) now edit in HEX window some cells
+4.) select some cells (SHIFT + Mouse) in range, bcomes black selected
+5.) right mouseclick to open popupmenu, click "select Cells", now selected cells are red marked (font)
+6.) repeat steps 4. and 5. with some other cells
+7.) click button "save to file" and select a EEP file or input a new filename
+8.) ready, now the save EEPR file includes only the EEPROM cells wich was selected, programming this EEP file on the first page will only write this 
+    content into AVR EEPROM. Iff you want it you can compile an encryted ACY file wich contains this EEPROM data, press button "compile".
+
+Gruß Hagen

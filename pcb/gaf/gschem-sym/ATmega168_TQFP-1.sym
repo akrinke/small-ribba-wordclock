@@ -1,0 +1,323 @@
+v 20110115 2
+P 5200 4900 4900 4900 1 0 0
+{
+T 5000 4950 5 8 1 1 0 0 1
+pinnumber=19
+T 5000 4850 5 8 0 1 0 2 1
+pinseq=15
+T 4850 4900 9 8 1 1 0 6 1
+pinlabel=ADC6
+T 4850 4900 5 8 0 1 0 8 1
+pintype=in
+}
+P 5200 4500 4900 4500 1 0 0
+{
+T 5000 4550 5 8 1 1 0 0 1
+pinnumber=22
+T 5000 4450 5 8 0 1 0 2 1
+pinseq=17
+T 4850 4500 9 8 1 1 0 6 1
+pinlabel=ADC7
+T 4850 4500 5 8 0 1 0 8 1
+pintype=in
+}
+P 5200 8100 4900 8100 1 0 0
+{
+T 5000 8150 5 8 1 1 0 0 1
+pinnumber=23
+T 5000 8050 5 8 0 1 0 2 1
+pinseq=18
+T 4850 8100 9 8 1 1 0 6 1
+pinlabel=(ADC0/PCINT8) PC0
+T 4850 8100 5 8 0 1 0 8 1
+pintype=io
+}
+P 5200 7700 4900 7700 1 0 0
+{
+T 5000 7750 5 8 1 1 0 0 1
+pinnumber=24
+T 5000 7650 5 8 0 1 0 2 1
+pinseq=19
+T 4850 7700 9 8 1 1 0 6 1
+pinlabel=(ADC1/PCINT9) PC1
+T 4850 7700 5 8 0 1 0 8 1
+pintype=io
+}
+P 5200 7300 4900 7300 1 0 0
+{
+T 5000 7350 5 8 1 1 0 0 1
+pinnumber=25
+T 5000 7250 5 8 0 1 0 2 1
+pinseq=20
+T 4850 7300 9 8 1 1 0 6 1
+pinlabel=(ADC2/PCINT10) PC2
+T 4850 7300 5 8 0 1 0 8 1
+pintype=io
+}
+P 5200 6900 4900 6900 1 0 0
+{
+T 5000 6950 5 8 1 1 0 0 1
+pinnumber=26
+T 5000 6850 5 8 0 1 0 2 1
+pinseq=21
+T 4850 6900 9 8 1 1 0 6 1
+pinlabel=(ADC3/PCINT11) PC3
+T 4850 6900 5 8 0 1 0 8 1
+pintype=io
+}
+P 5200 6500 4900 6500 1 0 0
+{
+T 5000 6550 5 8 1 1 0 0 1
+pinnumber=27
+T 5000 6450 5 8 0 1 0 2 1
+pinseq=22
+T 4850 6500 9 8 1 1 0 6 1
+pinlabel=(ADC4/SDA/PCINT12) PC4
+T 4850 6500 5 8 0 1 0 8 1
+pintype=io
+}
+P 5200 6100 4900 6100 1 0 0
+{
+T 5000 6150 5 8 1 1 0 0 1
+pinnumber=28
+T 5000 6050 5 8 0 1 0 2 1
+pinseq=23
+T 4850 6100 9 8 1 1 0 6 1
+pinlabel=(ADC5/SCL/PCINT13) PC5
+T 4850 6100 5 8 0 1 0 8 1
+pintype=io
+}
+P 5200 5700 4900 5700 1 0 0
+{
+T 5000 5750 5 8 1 1 0 0 1
+pinnumber=29
+T 5000 5650 5 8 0 1 0 2 1
+pinseq=24
+T 4850 5700 9 8 1 1 0 6 1
+pinlabel=(RESET/PCINT14) PC6
+T 4850 5700 5 8 0 1 0 8 1
+pintype=io
+}
+P 100 500 400 500 1 0 0
+{
+T 300 550 5 8 1 1 0 6 1
+pinnumber=20
+T 300 450 5 8 0 1 0 8 1
+pinseq=16
+T 450 500 9 8 1 1 0 0 1
+pinlabel=AREF
+T 450 500 5 8 0 1 0 2 1
+pintype=in
+}
+P 100 900 400 900 1 0 0
+{
+T 300 950 5 8 1 1 0 6 1
+pinnumber=18
+T 300 850 5 8 0 1 0 8 1
+pinseq=14
+T 450 900 9 8 1 1 0 0 1
+pinlabel=AVCC
+T 450 900 5 8 0 1 0 2 1
+pintype=pwr
+}
+P 100 8100 400 8100 1 0 0
+{
+T 300 8150 5 8 1 1 0 6 1
+pinnumber=12
+T 300 8050 5 8 0 1 0 8 1
+pinseq=8
+T 450 8100 9 8 1 1 0 0 1
+pinlabel=PB0 (PCINT0/CLK0/ICP1)
+T 450 8100 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 7700 400 7700 1 0 0
+{
+T 300 7750 5 8 1 1 0 6 1
+pinnumber=13
+T 300 7650 5 8 0 1 0 8 1
+pinseq=9
+T 450 7700 9 8 1 1 0 0 1
+pinlabel=PB1 (PCINT1/OC1A)
+T 450 7700 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 7300 400 7300 1 0 0
+{
+T 300 7350 5 8 1 1 0 6 1
+pinnumber=14
+T 300 7250 5 8 0 1 0 8 1
+pinseq=10
+T 450 7300 9 8 1 1 0 0 1
+pinlabel=PB2 (PCINT2/SS/OC1B)
+T 450 7300 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 6900 400 6900 1 0 0
+{
+T 300 6950 5 8 1 1 0 6 1
+pinnumber=15
+T 300 6850 5 8 0 1 0 8 1
+pinseq=11
+T 450 6900 9 8 1 1 0 0 1
+pinlabel=PB3 (PCINT3/OC2A/MOSI)
+T 450 6900 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 6500 400 6500 1 0 0
+{
+T 300 6550 5 8 1 1 0 6 1
+pinnumber=16
+T 300 6450 5 8 0 1 0 8 1
+pinseq=12
+T 450 6500 9 8 1 1 0 0 1
+pinlabel=PB4 (PCINT4/MISO)
+T 450 6500 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 6100 400 6100 1 0 0
+{
+T 300 6150 5 8 1 1 0 6 1
+pinnumber=17
+T 300 6050 5 8 0 1 0 8 1
+pinseq=13
+T 450 6100 9 8 1 1 0 0 1
+pinlabel=PB5 (SCK/PCINT5)
+T 450 6100 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 5700 400 5700 1 0 0
+{
+T 300 5750 5 8 1 1 0 6 1
+pinnumber=7
+T 300 5650 5 8 0 1 0 8 1
+pinseq=3
+T 450 5700 9 8 1 1 0 0 1
+pinlabel=PB6 (PCINT6/XTAL1/TOSC1)
+T 450 5700 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 5300 400 5300 1 0 0
+{
+T 300 5350 5 8 1 1 0 6 1
+pinnumber=8
+T 300 5250 5 8 0 1 0 8 1
+pinseq=4
+T 450 5300 9 8 1 1 0 0 1
+pinlabel=PB7 (PCINT7/XTAL2/TOSC2)
+T 450 5300 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 4500 400 4500 1 0 0
+{
+T 300 4550 5 8 1 1 0 6 1
+pinnumber=30
+T 300 4450 5 8 0 1 0 8 1
+pinseq=25
+T 450 4500 9 8 1 1 0 0 1
+pinlabel=PD0 (RXD/PCINT16)
+T 450 4500 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 4100 400 4100 1 0 0
+{
+T 300 4150 5 8 1 1 0 6 1
+pinnumber=31
+T 300 4050 5 8 0 1 0 8 1
+pinseq=26
+T 450 4100 9 8 1 1 0 0 1
+pinlabel=PD1 (TXD/PCINT17)
+T 450 4100 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 3700 400 3700 1 0 0
+{
+T 300 3750 5 8 1 1 0 6 1
+pinnumber=32
+T 300 3650 5 8 0 1 0 8 1
+pinseq=27
+T 450 3700 9 8 1 1 0 0 1
+pinlabel=PD2 (INT0/PCINT18)
+T 450 3700 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 3300 400 3300 1 0 0
+{
+T 300 3350 5 8 1 1 0 6 1
+pinnumber=1
+T 300 3250 5 8 0 1 0 8 1
+pinseq=1
+T 450 3300 9 8 1 1 0 0 1
+pinlabel=PD3 (PCINT19/OC2B/INT1)
+T 450 3300 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 2900 400 2900 1 0 0
+{
+T 300 2950 5 8 1 1 0 6 1
+pinnumber=2
+T 300 2850 5 8 0 1 0 8 1
+pinseq=2
+T 450 2900 9 8 1 1 0 0 1
+pinlabel=PD4 (PCINT20/XCK/T0)
+T 450 2900 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 2500 400 2500 1 0 0
+{
+T 300 2550 5 8 1 1 0 6 1
+pinnumber=9
+T 300 2450 5 8 0 1 0 8 1
+pinseq=5
+T 450 2500 9 8 1 1 0 0 1
+pinlabel=PD5 (PCINT21/OC0B/T1)
+T 450 2500 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 2100 400 2100 1 0 0
+{
+T 300 2150 5 8 1 1 0 6 1
+pinnumber=10
+T 300 2050 5 8 0 1 0 8 1
+pinseq=6
+T 450 2100 9 8 1 1 0 0 1
+pinlabel=PD6 (PCINT22/OC0A/AIN0)
+T 450 2100 5 8 0 1 0 2 1
+pintype=io
+}
+P 100 1700 400 1700 1 0 0
+{
+T 300 1750 5 8 1 1 0 6 1
+pinnumber=11
+T 300 1650 5 8 0 1 0 8 1
+pinseq=7
+T 450 1700 9 8 1 1 0 0 1
+pinlabel=PD7 (PCINT23/AIN1)
+T 450 1700 5 8 0 1 0 2 1
+pintype=io
+}
+B 400 100 4500 8400 3 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
+T 4900 8600 8 10 1 1 0 6 1
+refdes=U?
+T 400 8600 9 10 1 0 0 0 1
+ATMEGA168
+T 400 8800 5 10 0 0 0 0 1
+device=ATMEGA168
+T 400 9000 5 10 0 0 0 0 1
+footprint=TQFP32
+T 400 9200 5 10 0 0 0 0 1
+author=Andreas Krinke <andreas dot krinke at gmx de
+T 400 9400 5 10 0 0 0 0 1
+documentation=http://www.atmel.com/Images/doc8271.pdf
+T 400 9600 5 10 0 0 0 0 1
+description=Microcontroller
+T 400 9800 5 10 0 0 0 0 1
+numslots=0
+T 400 10000 5 10 0 0 0 0 1
+dist-license=GPL
+T 400 10200 5 10 0 0 0 0 1
+use-license=unlimited
+T 400 10400 5 10 0 0 0 0 1
+net=Vcc:4,6
+T 400 10600 5 10 0 0 0 0 1
+net=GND:3,5,21

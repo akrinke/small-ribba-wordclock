@@ -1,0 +1,157 @@
+\section{Anzeige Modi}\label{sec_modi}
+
+\ifthenelse{\WCindividualCfg=0 \or \WCmonocolor=0}
+{ % generische und RGB color Version des Textes
+    \subsection{Einfarb-Modus}\label{sec_modi_monocolor}
+				Mit Druck auf die "`\normalModeName"' Taste wird in den 
+				\normalModeName gewechselt. 
+				
+				In diesem wird die Zeit in einer gleichbleibenden Farbe 
+				angezeigt.
+				\ifthenelse{\WCindividualCfg=0}{
+					Handelt es sich bei der WordClock um eine 
+					RGB-Version, sind außerdem folgende Optionen 
+					verfügbar: 
+				}{Folgende weitere Optionen sind in diesem Modus verfügbar:}
+				
+				\subsubsection{Definierte Farbprofile}
+						Es stehen \WCcolorProfiles  Farbprofile zur Verfügung. Mittels der 
+						"`\normalModeName"' Taste kann zwischen den 
+						unterschiedlichen Farbprofilen gewechselt werden. 
+						
+						Die Stundenwörter zeigen dabei kurzzeitig die Nummer 
+						des aktuell ausgewählten Profils an. 
+						
+				\subsubsection{Farbprofil anpassen}
+						Die Farbe eines Profils kann verändert werden, indem 
+						mittels der Tasten "`Farbe Rot ändern"', "`Farbe Grün 
+						ändern"' oder "`Farbe Blau ändern"' ein Farbkanal 
+						ausgewählt wird. Dieser kann dann mittels der "`+/-"' 
+						Tasten verändert werden. So kann die Farbe beliebig 
+						eingestellt werden. 
+						
+				\subsubsection{Farbspektrum durchlaufen}
+						Alternativ kann man nach Betätigung der Taste 
+						"`Farben durchschalten"' mittels der "`+/-"' Tasten das 
+						Farbspektrum durchlaufen und so eine beliebige Farbe 
+						ausgewählt werden. 
+ 
+						\begin{Anmerkung}
+								Die Spektrumsfarbauswahl wird gegenwärtig nicht im 
+								Farbprofil gespeichert. 
+						\end{Anmerkung}
+						
+						
+		\subsection{Automatischer Farbwechselmodus}\label{sec_modi_fade}
+				Mit der Taste "`Automatischer Farbwechselmodus"' wird 
+				in einen Modus gewechselt, der automatisch langsam 
+				das Farbspektrum durchläuft.
+				 
+				Mittels der "`+/-"' Tasten kann die Geschwindigkeit des 
+				Farbwechsels verändert werden.
+				 
+				\ifthenelse{\WCindividualCfg=0}{
+						\begin{Anmerkung}
+								Der automatische Farbwechselmodus ist nur in der 
+								RGB"=Version verfügbar.
+						\end{Anmerkung}
+			  }
+}{% reine Monocolor Version des Textes
+    \subsection{Standard-Modus}\label{sec_modi_monocolor}
+				Durch Betätigung der der gleichnamigen Taste wird in den "`\normalModeName"'
+				gewechselt. 
+				In diesem wird die Uhrzeit mit einer gleichbleibenden Helligkeit 
+				(entsprechend der automatischen Helligkeitssteuerung) angezeigt.
+}				
+
+		\subsection{Pulsierender Modus}\label{sec_modi_pulse}
+				Dieser Modus kann aus dem \normalModeName
+				\ifthenelse{\WCindividualCfg=0 \or \WCmonocolor=0}{ und Farbwechselmodus}{}
+				mit der Taste "`Pulsierender Modus"' aktiviert und mit einer 
+				weiteren Betätigung wieder deaktiviert werden. 
+				
+				In diesem Modus wird die Helligkeit der Uhr in einem 
+				pulsierenden Muster zwischen hell und dunkel verändert. 
+				
+				Mittels der "`+/-"' Tasten kann die Geschwindigkeit 
+				verändert werden. 
+				
+				\begin{Anmerkung}
+						Während dieser Modus aktiv ist, ist die automatische 
+						Helligkeitsanpassung deaktiviert. 
+				\end{Anmerkung}
+				
+		\subsection{Demo-Modus}\label{sec_modi_demo}
+				Der Demo"=Modus schaltet die Ausgänge der Reihe nach 
+				einzeln an. 
+				
+				Dieser Modus dient hauptsächlich zum Testen der 
+				WordClock"=Schaltung, sowie zur Überprüfung der 
+				richtigen Beschaltung der LED Ausgänge. 
+		
+		\subsection{Sprachmodus-Auswahl}\label{sec_modi_regio}
+				Mittels der Sprachmodi"=Taste kann zwischen  
+				verschiedenen deutschen Formulierungsarten 
+				umgeschaltet werden. 
+				
+				Es stehen folgende 8 Sprachmodi zur Verfügung: 
+				
+				\begin{compactenum}
+						\item  "`Wessi"'-Modus (ständige Anzeige "`Es ist"') 
+						\item  "`Wessi"'-Modus  
+						\item  "`Rhein-Ruhr"'-Modus (ständige Anzeige "`Es ist"') 
+						\item  "`Rhein-Ruhr"'-Modus 
+						\item  "`Ossi"'-Modus (ständige Anzeige "`Es ist"') 
+						\item  "`Ossi"'-Modus 
+						\item  "`Schwaben"'-Modus (ständige Anzeige "`Es ist"') 
+						\item  "`Schwaben"'-Modus
+				\end{compactenum}
+				
+				Im Modus 2, 4, 6 und 8 erfolgt die Anzeige "`Es ist"' nur 
+				zur halben und vollen Stunde.
+				Dies ist um eine allzu ungleiche Leuchtdauer der LEDs zu verhindern 
+				und somit ein Voraltern dieser häufig benutzten LEDs zu verhindern.
+				
+
+
+					\begin{center}
+					  \arrayrulecolor{colorBack}
+						\begin{tabular}{|C{.15\textwidth}L{.22\textwidth}L{.22\textwidth}L{.22\textwidth}|}
+								\hline
+								\rowcolor{colorBack}  {\textcolor{white}{}} 
+																		& {\textcolor{white}{6:15}} 
+																		& {\textcolor{white}{8:45}} 
+																		& {\textcolor{white}{1:20}}\tabularnewline
+								\hline
+								{Wessi}& {viertel nach sechs}&{viertel vor neun}&{zehn vor halb zwei}\tabularnewline
+								\hline
+								{Rhein-Ruhr}& {viertel nach sechs }&{viertel vor neun }&{zwanzig nach eins }\tabularnewline
+								\hline
+								{Ossi}& {viertel sieben}&{dreiviertel neun}&{zehn vor halb zwei}\tabularnewline
+								\hline
+								{Schwabe}& {viertel sieben}&{dreiviertel neun}&{zwanzig nach eins}\tabularnewline
+								\hline
+						\end{tabular}
+				\end{center}
+
+				 
+				\begin{Anmerkung}
+						Die Bezeichnung Ossi/Wessi"=Modus ist weder 
+						diskriminierend gemeint noch 100\%ig korrekt. Es 
+						scheint mehr oder weniger ein breites Band zu sein, 
+						das von Südwest nach Nordost verläuft, in dem die 
+						Ossi"=Variante gesprochen wird. 
+						
+						Weitergehende Informationen zu den unterschiedlichen 
+						Aussprachen findet man im Internet: \\
+						\url{http://de.wikipedia.org/wiki/Uhrzeit}\\
+						\url{http://www.norddeutschelernendieuhrzulesen.de}
+				\end{Anmerkung}
+				
+				
+\begin{figure}[b]
+	\centering
+		\includegraphics[width=1.00\textwidth]{regiomap.pdf}
+	\label{fig:karte}
+	\caption{Karte zur Verwendung von "`Dreiviertel"'}
+\end{figure}

@@ -1,0 +1,98 @@
+\section{Antrainieren einer Fernbedienung}\label{sec_trainIr}
+		Wird nach einem Neustart der Uhr, während des Blinkens der Minutenpunkte, 
+		ein Infrarot"=Fernbedienungs"=Kommando erkannt, 
+		wechselt die Uhr automatisch in den Fernbedienungs"=Trainingsmodus. 
+		Nun müssen nacheinander allen Kommandos die gewünschten Fernbedienungstasten 
+		zugewiesen werden. 
+		
+		Soll ein oder mehrere Kommandos nicht zugewiesen werden,
+		\ifthenelse{\WCindividualCfg=1}{
+		  da diese nicht benötigt werden,	
+		}{
+			weil zum Beispiel keine Funkuhr-Funktion oder kein Ambilight enthalten ist, 
+			oder nur einfarbige LEDs (kein RGB) verwendet werden, 
+		}
+		kann die Option mit erneutem Druck auf die an/aus-Taste übersprungen werden.		
+		Die übersprungene Option steht dann später nicht zur Verfügung, 
+		kann jedoch in einer weiteren Anlernprozedur nach einem Neustart wieder aktiviert 
+		werden. 
+		
+		Die Stundenwörter zeigen an, welches Kommando nun einer Fernbedienungstaste
+		zugewiesen werden soll. 
+		Nach dem zwölften Kommando beginnt die Anzeige der Stundenwörter wieder bei eins.  
+		
+		\begin{Anmerkung}
+				Eine Übersicht über die Kommandos und deren Reihenfolge 
+				befindet sich am Ende dieses Kapitels.
+		\end{Anmerkung}
+		
+		
+		\begin{Anmerkung}
+				Aufgrund der Vielzahl an Herstellern von fernbedienbaren Geräten 
+				existiert eine ebenso große Vielzahl von Fernbedienungsprotokollen. 
+				Es wurde versucht, die häufigsten Protokolle zu 
+				implementieren. Aufgrund der Vielfalt an 
+				unterschiedlichen Fernbedienungsprotokollen, kann es 
+				vorkommen, dass nicht alle Fernbedienungen erkannt 
+				werden. \\
+				Sollte während des Anlernens der Fernbedienung auffallen, 
+				dass die Uhr nicht wie erwartet reagiert 
+				(die Zahlenanzeige überspringt Zahlen oder eine Taste wird 
+				erst nach mehrmaligen Drücken erkannt), 
+				kann das Protokoll der verwendeten Fernbedienung nicht 
+				problemlos erkannt werden. 
+				In einem solchen Fall, ist die Uhr vom Strom zu trennen und 
+				mit einer anderen Fernbedienung neu zu beginnen. 
+		\end{Anmerkung}
+
+
+		\subsection{Übersicht der möglichen Kommandos}
+		\begin{minipage}{\textwidth}
+		\newcounter{ircmdNumber} 
+		\newcommand{\ircCmdTableLine}[1]{  {\stepcounter{ircmdNumber}\theircmdNumber.}& {#1}&{}\tabularnewline\hline}
+		\begin{center}
+		   % \footnotesize
+			  \arrayrulecolor{colorBack}
+				\begin{tabular}{|R{.05\textwidth}L{.6\textwidth}|L{.25\textwidth}|}
+						\hline
+						\rowcolor{colorBack}  {\textcolor{white}{Nr.}} 
+																& {\textcolor{white}{Kommando}} 
+																& {\textcolor{white}{Taste eigene Fernbedienung}} 
+																\tabularnewline\hline
+						\ircCmdTableLine{ein/aus}
+						\ircCmdTableLine{heller}
+						\ircCmdTableLine{dunkler}
+						\ircCmdTableLine{rauf/+}
+						\ircCmdTableLine{runter/-}
+						\ircCmdTableLine{manuelle Zeiteingabe}
+						\ircCmdTableLine{Eingabe der Ein-/Ausschaltzeit}
+						\ifthenelse{\WCindividualCfg=0 \or \WCdcf=1}{
+							\ircCmdTableLine{Funkuhr-Abgleich manuell starten}
+						}{}
+						
+      			\ircCmdTableLine{\normalModeName \ifthenelse{\WCindividualCfg=0 \or \WCmonocolor=0}{/Farbprofile aktivieren}{}}
+      			\ircCmdTableLine{Pulsierender Modus}
+      			\ircCmdTableLine{Demo-Modus}
+		        \ifthenelse{\WCindividualCfg=0 \or \WCmonocolor=0}{
+		      			\ircCmdTableLine{Automatischer Farbwechselmodus (Regenbogen)}
+		      			\ircCmdTableLine{Farbe Rot ändern}
+		      			\ircCmdTableLine{Farbe Grün ändern}
+		      			\ircCmdTableLine{Farbe Blau ändern}
+		      			\ircCmdTableLine{Farben durchschalten (Regenbogen/Hue)}
+						}{}
+      			\ircCmdTableLine{aktuelle Helligkeit übernehmen}
+						\ifthenelse{\WCindividualCfg=0 \or \WCambilight=1}{ 
+		      			\ircCmdTableLine{Ambilight ein-/ausschalten}
+		        }{}
+						\ifthenelse{\WCindividualCfg=0 \or \WCbluetooth=1}{ 
+		      			\ircCmdTableLine{Bluetooth ein-/ausschalten}
+		        }{}
+						\ifthenelse{\WCindividualCfg=0 \or \WCauxIO=1}{ 
+		      			\ircCmdTableLine{zusätzlichen IO ein-/ausschalten}
+		        }{}
+      			\ircCmdTableLine{Umschalten zwischen den Regional-Modi}
+%      			\ircCmdTableLine{}
+				\end{tabular}
+		\end{center}		
+		
+		\end{minipage}

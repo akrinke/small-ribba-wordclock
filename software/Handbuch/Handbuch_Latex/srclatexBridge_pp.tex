@@ -1,0 +1,115 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% THIS FILE IS AUTOMATICLY GENERATED - DO NOT CHANGE THINGS HERE - THEY WILL BE OVERWRITTEN             
+%%% Please edit  'srclatexBridge.tex' 
+%%% and execute 'latex_Preprocess.pl' again.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% this file contains some c-style preprocessor makros to support
+% individual generation of the manual depending on software configuration
+%
+% use the perl script 'latex_Preprocess.pl' that also resides in this directory
+% adapt it to your environment (pdflatex path, gcc command) first
+
+
+
+
+
+
+
+
+
+% wird hier definiert, wegen optionaler Paketoption ^^
+\usepackage[ %
+            bookmarksopen,%
+            bookmarksopenlevel = 3,%
+            bookmarksnumbered,%
+            pdftitle={Word Clock Benutzerhandbuch},%
+            pdfsubject={},%
+            pdfcreator={PDF-LaTeX mit TeXnicCenter und HyperRef},%
+            pdfauthor={Rene Staffen},%
+            pdfproducer={Rene Staffen},%
+            pdfstartview = FitH%
+%,draft %disables links and draws link text normaly black
+           ]{hyperref}
+
+
+\newcommand{\numberToText}[1]{\ifthenelse{#1=1}{ein }{%
+\ifthenelse{#1=2}{zwei }{%
+\ifthenelse{#1=3}{drei }{%
+\ifthenelse{#1=4}{vier }{%
+\ifthenelse{#1=5}{fünf }{%
+\ifthenelse{#1=6}{sechs }{%
+\ifthenelse{#1=7}{sieben }{%
+\ifthenelse{#1=8}{acht }{%
+\ifthenelse{#1=9}{neun }{%
+\ifthenelse{#1=10}{zehn }{%
+}}}}}}}}}}}
+
+
+
+
+
+
+\newcommand{\WCmonocolor}{0}
+
+
+\newcommand{\WCindividualCfg}{0}
+\newcommand{\WCautoSave}{1}
+\newcommand{\WCdcf}{1}
+\newcommand{\WCambilight}{1}
+\newcommand{\WCbluetooth}{1}
+\newcommand{\WCauxIO}{1}
+
+
+\newcommand{\WCcolorProfiles}{\numberToText{4}}
+
+\newcommand{\WCSoftWareVersion}[2]{#1.#2} % Sofftwareversionen zusammensetzen (aus defines)
+\newcommand{\SoftwareVersion}{\WCSoftWareVersion{0}{12}}

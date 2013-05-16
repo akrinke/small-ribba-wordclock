@@ -1,0 +1,36 @@
+\section{Sicherung der Einstellungen}\label{sec_autoSave}
+		Viele der vom Benutzer getätigten Einstellungen 
+		können gespeichert werden und bleiben auch nach einem 
+		Stromausfall oder einem Trennen der Stromversorgung 
+		erhalten. 
+		
+		Der Speichervorgang wird nach Betätigen der "`Ein/Aus"'-Taste durchgeführt.
+		
+		\ifthenelse{\WCautoSave=1}{
+		  Außerdem wird, wenn eine bestimmte Zeit kein Fernbedienungs-Kommando 
+		  mehr empfangen wurde, automatisch eine Speicherung durchgeführt.
+		}{}
+		
+		
+		
+		Zu den gesicherten Daten zählen: 
+		\begin{compactitem}
+				\item  antrainierte Fernbedienung 
+				\item  vom Benutzer eingestellte Helligkeit 
+				\item  ausgewählter Modus
+        \ifthenelse{\WCindividualCfg=0 \or \WCmonocolor=0}{
+					\item  ausgewähltes Farbprofil 
+					\item  Farbwerte der Farbprofile 
+					\item  Farbwechsel-Geschwindigkeit 
+				}{}
+				\item  Puls-Geschwindigkeit 
+				\item  gewähltes Sprachprofil 
+				\item  benutzerdefinierte Ein/Ausschaltzeiten 
+		\end{compactitem}
+		 
+    \ifthenelse{\WCindividualCfg=0 \or \WCmonocolor=0}{
+			\begin{Anmerkung}
+					Das Speichern der per Hue-Farbwahl gewählten Farbe 
+					funktioniert momentan noch nicht. 
+			\end{Anmerkung}
+		}{}

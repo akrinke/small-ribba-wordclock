@@ -1,0 +1,51 @@
+Diese Datei beschreibt wie man verschlüsselte Updatedateien erzeugt.
+
+1.) starte AVRootloader.exe im Ordner \AVRootloader\Windows\
+2.) drücke "make Password"
+3.) wähle im Dateidialog die Datei "AVRootloader.asm" aus
+4.) entscheide ob das per Zufall erzeugte Passwort in AVRootloader.ini gespeichert werden soll.
+    Das erzeugte Passwort wird auch in die Zwischenablage kopiert und kann so anderenorts gespeicheret werden.
+    Wird das Passwort in AVRootloader.ini gespeichert so wird es beim Flashen von dort geladen falls nötig
+    Wird das Passwort nicht in AVRootloader.ini gespeichert so fragt AVRoorloader.exe es jedesmal ab.
+    Möchte man verschlüselte Offlineupdates für Kunden erzeugen so darf das Passwort natürlich nicht in AVRootoader.ini gespeichert werden !!
+5.) Öffne mit AVRStudio die Datei AVRootloader.aps
+6.) konfiguriere AVRootloader.asm, setze UseCrypt=1 und UseCryptFLASH=1 und UseCryptE2=1 und UseSRAM=0. Das ist die sicherste Konfiguration.
+    Möchtest du das man den EEPROM nicht auslesen kann so setze UseE2Read=0.
+    Möchtest du das man den EEPROM auslesen und schreiben kann ohne Verschlüsselung so setze UseE2Write=1, UseE2Read=1 und UseCryptE2=0.
+    Möchtest du das man den EEPROM auslesen aber nur verschlüsselt schreiben kann so setze UseE2Write=1, UseE2Read=1 und UseCryptE2=1.
+    Wenn du UseSRAM=1 und/oder UseCryptFLASH=0 setzt so kann ein Angreifer die Sicherheit umgehen indem er diese Funktionen benutzt um
+    eine eigene Anwendung unverschlüsselt zu flashen und mit Hilfe dieser Anwendung das Passwort in BootKey: ausliest.
+    Wichtig ist also das man UseSRAM=0 und UseCryptFASH=1 setzt wenn man es sicher haben möchte.
+7.) das vorher erzeugte Passwort wurde schon in Bootkey: eingetragen.
+8.) kompiliere das Projekt wie in AVRootloader.txt beschrieben
+9.) flashe AVRootloader.hex in den AVR
+
+10.) starte AVRootloader.exe und konfiguriere ale Parameter (COM Port, Baudrate etc.pp.)
+11.) wähle im Eingabefeld "FLASH" eine HEX Datei die kompiliert werden soll
+12.) wähle im Eingabefeld "EEPROM" eine EEP Datei die ins EEPROM gespeichert werden soll
+13.) drücke Schalter "compile"
+14.) wähle im Dateidialog den Namen und Speicherort der ACY Datei aus
+15.) falls der Passwortdialoig erscheint so gebe das vorher erzeugte Passwort ein, zb. Paste über die Zwischenablage
+     das Passwort sollte in HEXadezmal eingegeben werden, Kommatas oder ähnlich Sonderzeichen werden ignoriert, die Buchstaben A-F können auch klein geschrieben werden
+16.) drücke Ok und das Preogram erzeugt eine ACY Datei die alle Daten der FLASH/EEPROM Dateien verschlüsselt enthält
+17.) nun testen wir indem wir im Eingabefeld "FLASH" diese ACY Datei auswählen und den Button "Program" drücken
+     die Eingabe im Edit "EEPROM" ist dabei irrelevant.
+18.) Wird bei einem Kunden AVRootloader.exe so installiert das in AVRootloader.ini bei [System] -> Password= nichts drinnen steht so kann man eine
+     verschlüsselte ACY-Datei dem Kunden ausliefern und diese kann er auf den AVR mit Bootloader einspielen.
+19.) man kann auch ACY-Dateien unverschlüsselt erzeugen. Dazu darf der Bootloader eben keine Entschlüsselungsfunktion aktiviert haben.
+20.) Die verschlüsselten ACY-Dateien laufen nur auf dem Bootloader der beim Erzeugen der ACY-Dateien verbunden war. Eine ACY-Datei enthält also
+     die Informationen aus BootInfo: -> die Signatur des AVRs, die Version des Bootloaders und die Anzahl der FLASH Pages des Bootloaders.
+     Bei verschlüsselten ACY-Dateien liegen diese Informationen im ersten verschlüsselten 16 Bytes Datenblock der an den Bootlaoder gesendet wird.
+     Der Bootloader entschlüsselt diesen 1. Datenblock und vergleicht diese Daten dann mit seiner BootInfo: und den ersten 4. Bytes des BootKey:
+     Die ersten 8 Bytes dieses 1. Datenblockes bestehen immmer aus Zufallsdaten. Durch den verwendeten CBC Feedback Modus bei der Verschlüsselung 
+     propagieren sich diese 8 Zufallsbytes durch alle nachfolgenden verschlüsselten Datenblöcke. Dies verhindert effizient verschiedene kryptographische
+     Angriffe wie zb. Choosen Plain Text Attack, Replyattack, Diffentielle Kryptoanalyse, Blockvertauschungen, Blockersetzungen.
+     Die Speicheradressen der verschlüsselten FLASH/EEPROM Daten werden ebenfalls nur verschlüsselt gespeichert und übertragen. Dies erfolgt bei solchen
+     Datenpacketen im letzten 8 Bytes Datenblock. In diesem Datenblock liegen verschlüsselt die ersten 4 Bytes des Passwortes als Signatur,
+     1 Byte Größenkorrektur des Datenblockes das von 0 bis 7 gehen kann, und 3 Bytes Addresse an denen diese Daten im FLASH/EEPROM gespeichert werden sollen.
+     Die ersten 4 Bytes werden mit dem internen ersten 4 Bytes des BootKey: verglichen und dienen als Signatur. Sollte bei der Datenübertragung oder durch Manipulation
+     in den Daten Modifikationen aufgetreten sein so wird diese Signatur nicht mehr stimmen können. Der verwendete CBC-Doppel-Feedback-Modus des Ciphers arbeitet also
+     wie eine 64Bit Checksumme mit 32Bit Prüfcode.
+
+
+Gruß Hagen

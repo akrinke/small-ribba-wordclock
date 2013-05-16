@@ -1,0 +1,67 @@
+%% Deckblatt
+
+\begin{titlepage}
+\pdfbookmark[0]{WordClock}{toc}
+
+\begin{addmargin}{-1cm}
+
+\begin{center}
+
+%\vspace*{1cm}
+\vfill
+\includegraphics[width=1.2\textwidth]{wordclockFront_Manual_ger.pdf}
+
+\vfill
+
+\large
+Benutzerhandbuch\\[0.1\baselineskip]
+zu Software v\SoftwareVersion
+\vfill
+
+\end{center}
+\end{addmargin}
+
+\clearpage
+
+\vfill
+
+Projektteam:
+\begin{list}{}{}
+	\item Frank Meyer (ukw)
+	\item René Staffen (vladtepesch)
+	\item Torsten Giese (wawibu)
+	\item Rene H (promeus)
+	\item Simon Mahler (edimahler) 
+\end{list}
+
+\vfill
+
+
+% liste darf nicht leer sein, daher diese Abfrage
+\ifthenelse{ \WCindividualCfg=0 \or \( \WCbluetooth=1 \or \WCdcf=1 \or \WCmonocolor=0 \or \WCambilight=1\) }
+{
+Besondere Eigenschaften:
+  
+  \begin{list}{\ifthenelse{\WCindividualCfg=1}{$\bullet$}{[~~~]} }{}
+
+
+   \ifthenelse{\WCindividualCfg=0 \or \WCmonocolor=0}
+      {\item RGB (Mehrfarb-LEDs)}{}
+      
+   \ifthenelse{\WCindividualCfg=0 \or \WCambilight=1}
+      {\item Ambilight (Umgebungslicht)}{}
+      
+   \ifthenelse{\WCindividualCfg=0 \or \WCdcf=1}
+      {\item Funkuhr-Empfänger}{}
+      
+   \ifthenelse{\WCindividualCfg=0 \or \WCbluetooth=1}
+			{\item Bluetooth}{}
+			
+  \end{list}
+}
+{}
+
+\vfill
+
+
+\end{titlepage}

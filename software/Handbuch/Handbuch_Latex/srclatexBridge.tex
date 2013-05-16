@@ -1,0 +1,64 @@
+% this file contains some c-style preprocessor makros to support 
+% individual generation of the manual depending on software configuration
+%
+% use the perl script 'latex_Preprocess.pl' that also resides in this directory
+% adapt it to your environment (pdflatex path, gcc command) first
+
+#define F_CPU  // to avoid error in main.h
+#include "main.h"
+#include "user.h"
+
+
+#ifndef FORPRINT
+#  define COLORLINKS colorlinks,
+#else
+#  define COLORLINKS
+#endif
+% wird hier definiert, wegen optionaler Paketoption ^^
+\usepackage[ COLORLINKS %
+            bookmarksopen,%
+            bookmarksopenlevel = 3,%
+            bookmarksnumbered,%
+            pdftitle={Word Clock Benutzerhandbuch},%
+            pdfsubject={},%
+            pdfcreator={PDF-LaTeX mit TeXnicCenter und HyperRef},%
+            pdfauthor={Rene Staffen},%
+            pdfproducer={Rene Staffen},%
+            pdfstartview = FitH%
+%,draft %disables links and draws link text normaly black           
+           ]{hyperref}
+
+
+\newcommand{\numberToText}[1]{\ifthenelse{#1=1}{ein }{%
+\ifthenelse{#1=2}{zwei }{%
+\ifthenelse{#1=3}{drei }{%
+\ifthenelse{#1=4}{vier }{%
+\ifthenelse{#1=5}{fünf }{%
+\ifthenelse{#1=6}{sechs }{%
+\ifthenelse{#1=7}{sieben }{%
+\ifthenelse{#1=8}{acht }{%
+\ifthenelse{#1=9}{neun }{%
+\ifthenelse{#1=10}{zehn }{%
+}}}}}}}}}}}
+
+
+
+#if MONO_COLOR_CLOCK==1
+\newcommand{\WCmonocolor}{1}
+#else
+\newcommand{\WCmonocolor}{0}
+#endif
+
+\newcommand{\WCindividualCfg}{INDIVIDUAL_CONFIG}
+\newcommand{\WCautoSave}{USER_AUTOSAVE}
+\newcommand{\WCdcf}{DCF_PRESENT}
+\newcommand{\WCambilight}{AMBILIGHT_PRESENT}
+\newcommand{\WCbluetooth}{BLUETOOTH_PRESENT}
+\newcommand{\WCauxIO}{AUXPOWER_PRESENT}
+
+
+\newcommand{\WCcolorProfiles}{\numberToText{UI_COLOR_PRESET_COUNT}}
+
+\newcommand{\WCSoftWareVersion}[2]{#1.#2} % Sofftwareversionen zusammensetzen (aus defines)
+\newcommand{\SoftwareVersion}{\WCSoftWareVersion{MAJOR_VERSION}{MINOR_VERSION}}
+
