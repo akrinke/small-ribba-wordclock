@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Small RIBBA Word Clock by akrinke</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Small RIBBA Word Clock</h1>
+        <p>Design files for a word clock based on a single layer 20x20 cm² PCB for use in a small RIBBA picture frame from IKEA.</p>
+        <p class="view"><a href="https://github.com/akrinke/small-ribba-wordclock">View the Project on GitHub <small>akrinke/small-ribba-wordclock</small></a></p>
+        <ul>
+          <li><a href="https://github.com/akrinke/small-ribba-wordclock/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/akrinke/small-ribba-wordclock/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/akrinke/small-ribba-wordclock">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Overview</h1>
+
+<p>These are the design files for a word clock (see
+<a href="http://www.mikrocontroller.net/articles/Word_Clock">mikrocontroller.net</a>). It
+uses a 20x20 cm² single layer PCB which is meant to be built into a small
+23x23 cm² RIBBA picture frame from IKEA.</p>
+
+<h1>PCB</h1>
+
+<p>The single layer PCB was created using <a href="http://www.geda-project.org">gEDA</a>
+(gschem and pcb). It's based on the schematic from mikrocontroller.net (variant
+1) with small changes to the pin assignment in order to simplify the layout.
+Because the PCB has only a single layer, it can be produced at a low cost. I
+ordered mine from <a href="http://platinenbelichter.de">platinenbelichter.de</a> for less
+than 30 EUR.</p>
+
+<h1>Parts</h1>
+
+<h2>LEDs</h2>
+
+<p>You need 97 LEDs (through hole, not SMD). I bought a pack of 100 straw hat leds
+from eBay.</p>
+
+<h2>LED Series Resistors</h2>
+
+<p>Depending on the lengths of the words on the front panel, there are groups of
+one, two, three, or four LEDs for each word. Each group needs one series
+resistor whose value depends on the number of LEDs in the group, the supply
+voltage, the LED current, and the LED forward voltage. In my case, the voltage
+across each group is 10.6 V (12 V wall power supply minus 1.4 V voltage drop
+across the MIC2981 driver). For my LEDs, I simply experimented with different
+resistor values for 1,2,3,4 LEDs in series until the current matched 20 mA.</p>
+
+<h2>Complete Part List</h2>
+
+<p>See part-list.ods for a complete part list.  In Germany, you can order all
+parts from <a href="http://www.buerklin.com">Bürklin</a>,
+<a href="http://www.reichelt.de">Reichelt</a> and eBay---see list for part numbers.</p>
+
+<h1>Firmware</h1>
+
+<p>The original software from mikrocontroller.net was modified to comply with the
+schematic and pcb layout changes but was not altered otherwise.</p>
+
+<h1>Letter Stencil</h1>
+
+<p>The word clock requires a letter stencil in front of the LEDs. A laser cutting
+template for a german version of the stencil is included.  I used 1.5mm thick
+MDF (bought from <a href="http://www.gerstaecker.de">Gerstaecker</a>). Note: Painting MDF
+requires many passes with intermediate sanding! Be patient.</p>
+
+<h1>Light Guide</h1>
+
+<p>The LEDs must not light up neighboring letters. Therefore, we need some kind of
+guide to block their light. The files for a laser cut paper light guide are
+included. Depending on the thickness of the material you might have to
+regenerate the template from the source SVG.
+I used black paper for my laser cut light guide.</p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/akrinke">akrinke</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
