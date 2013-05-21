@@ -30,8 +30,8 @@ uses a 20x20 cm² single layer PCB which is meant to be built into a small
 The single layer PCB was created using [gEDA](http://www.geda-project.org)
 (gschem and pcb). It's based on the schematic from mikrocontroller.net (variant
 1,
-[sheet 1](https://raw.github.com/akrinke/small-ribba-wordclock/master/pcb/wordclock-schematic-1.pdf),
-[sheet 2](https://raw.github.com/akrinke/small-ribba-wordclock/master/pcb/wordclock-schematic-2.pdf))
+[sheet 1](https://raw.github.com/akrinke/small-ribba-wordclock/master/pcb/schematic-1.pdf),
+[sheet 2](https://raw.github.com/akrinke/small-ribba-wordclock/master/pcb/schematic-2.pdf))
 with small changes to the pin assignment in order to simplify the layout.
 Because the PCB has only a single layer, it can be produced at a low cost. I
 ordered mine from [platinenbelichter.de](http://platinenbelichter.de) for less
@@ -56,9 +56,11 @@ resistor values for 1,2,3,4 LEDs in series until the current matched 20 mA.
 
 ## Complete Part List
 
-See `part-list.ods` for a complete part list.  In Germany, you can order all
-parts from [Bürklin](http://www.buerklin.com),
-[Reichelt](http://www.reichelt.de) and eBay---see list for part numbers.
+See
+[part-list.ods](https://raw.github.com/akrinke/small-ribba-wordclock/master/part-list.ods),
+for a complete part list.  In Germany, you can order all parts from
+[Bürklin](http://www.buerklin.com), [Reichelt](http://www.reichelt.de) and
+eBay---see list for part numbers.
 
 # Firmware
 
