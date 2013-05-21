@@ -1,6 +1,6 @@
 # [Small RIBBA Word Clock](http://akrinke.github.io/small-ribba-wordclock)
 
-![Word Clock](http://akrinke.github.io/small-ribba-wordclock/images/word-clock-hanging-on.jpg)
+<p align="center"><img width="50%" src="http://akrinke.github.io/small-ribba-wordclock/images/word-clock-hanging-on.jpg"></p>
 
 These are the design files for a word clock (see
 [mikrocontroller.net](http://www.mikrocontroller.net/articles/Word_Clock)). It
