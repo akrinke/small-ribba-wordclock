@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>{{ site.project.title }}</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="stylesheets/colorbox.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <script src="javascripts/jquery.min.js"></script>
+    <script src="javascripts/jquery.colorbox-min.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery('a.gallery').colorbox({maxWidth:'100%', maxHeight:'100%', rel:'group'});
+        });
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      {% include header.html %}
+      <section>
+        {{content}}
+      </section>
+    </div>
+    {% include footer.html %}
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+  </body>
+</html>

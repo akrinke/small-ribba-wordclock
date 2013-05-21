@@ -1,0 +1,6 @@
+project:
+  name: small-ribba-wordclock
+  title: Small RIBBA Word Clock
+  description: Design files for a word clock based on a single layer 20x20 cm² PCB for use in a small RIBBA picture frame from IKEA.
+  user: akrinke
+  userfull: Andreas Krinke
