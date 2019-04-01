@@ -1,10 +1,10 @@
 // width of the laser cut
-kerf = 0.0;
+kerf = 0.05;
 // minimum distance between parts on the panel
 min_distance = 1+kerf;
 
 // light guide
-thickness = 1;
+thickness = 1.0;
 height = 16;
 overlap = 5;
 
@@ -18,9 +18,14 @@ if (render_3d) {
     components();
     leds();
     screws();
-    blockages();
-    horizontal_light_guide();
-    vertical_light_guide();
+    /*blockages();*/
+    difference() {
+        union() {
+            horizontal_light_guide();
+            vertical_light_guide();
+        }
+        blockages();
+    }
 } else {
     flat();
 }
@@ -205,6 +210,7 @@ module v12() {
                 translate([200,-thickness,-pcb_height])
                 cube([thickness,200+2*thickness,height+pcb_height]);
                 hnotches();
+                blockages();
             }
 }
 
