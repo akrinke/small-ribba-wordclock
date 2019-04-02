@@ -48,13 +48,13 @@ module vnotches() {
 // outer ring bottom
 module h0() {
     rotate([-90,0,0])
-        translate([thickness,thickness,pcb_height])
+        translate([thickness+overlap,thickness,pcb_height])
             difference() {
-                translate([-thickness,-thickness,-pcb_height])
-                    cube([200+2*thickness,thickness,height+pcb_height]);
+                translate([-thickness-overlap,-thickness,-pcb_height])
+                    cube([200+2*thickness+2*overlap,thickness,height+pcb_height]);
                 vnotches();
             }
-}    
+}
 
 // 7805 (between row 0 (outer ring) and row 1
 module h0_7805() {
@@ -126,10 +126,10 @@ module h6() {
 // outer ring top
 module h10() {
     rotate([-90,0,0])
-        translate([thickness,-200,pcb_height])
+        translate([thickness+overlap,-200,pcb_height])
             difference() {
-                translate([-thickness,200,-pcb_height])
-                    cube([200+2*thickness,thickness,height+pcb_height]);
+                translate([-thickness-overlap,200,-pcb_height])
+                    cube([200+2*thickness+2*overlap,thickness,height+pcb_height]);
                 vnotches();
             }
 }
@@ -140,10 +140,10 @@ module h10() {
 // outer ring left
 module v0() {
     rotate([0,-90,0])
-        translate([thickness,thickness,-height])
+        translate([thickness,thickness+overlap,-height])
             difference() {
-                translate([-thickness,-thickness,-pcb_height])
-                    cube([thickness,200+2*thickness,height+pcb_height]);
+                translate([-thickness,-thickness-overlap,-pcb_height])
+                    cube([thickness,200+2*thickness+2*overlap,height+pcb_height]);
                 hnotches();
             }
         
@@ -205,10 +205,10 @@ module v11_isp_port() {
 // outer ring right
 module v12() {
     rotate([0,-90,0])
-        translate([-200,thickness,-height])
+        translate([-200,thickness+overlap,-height])
             difference() {
-                translate([200,-thickness,-pcb_height])
-                cube([thickness,200+2*thickness,height+pcb_height]);
+                translate([200,-thickness-overlap,-pcb_height])
+                cube([thickness,200+2*thickness+2*overlap,height+pcb_height]);
                 hnotches();
                 blockages();
             }
@@ -310,10 +310,10 @@ module flat() {
 
 module horizontal_light_guide() {
     // outer ring
-    translate([-thickness,-thickness,-pcb_height])
-        cube([200+2*thickness,thickness,height+pcb_height]);
-    translate([-thickness,200,-pcb_height])
-        cube([200+2*thickness,thickness,height+pcb_height]);
+    translate([-thickness-overlap,-thickness,-pcb_height])
+        cube([200+2*thickness+2*overlap,thickness,height+pcb_height]);
+    translate([-thickness-overlap,200,-pcb_height])
+        cube([200+2*thickness+2*overlap,thickness,height+pcb_height]);
 
 
     // inner stripes
@@ -370,10 +370,10 @@ module horizontal_light_guide() {
 
 module vertical_light_guide() {
     // outer ring
-    translate([-thickness,-thickness,-pcb_height])
-        cube([thickness,200+2*thickness,height+pcb_height]);    
-    translate([200,-thickness,-pcb_height])
-        cube([thickness,200+2*thickness,height+pcb_height]);
+    translate([-thickness,-thickness-overlap,-pcb_height])
+        cube([thickness,200+2*thickness+2*overlap,height+pcb_height]);
+    translate([200,-thickness-overlap,-pcb_height])
+        cube([thickness,200+2*thickness+2*overlap,height+pcb_height]);
     
     // inner stripes
     for (x=[28:16:172])
