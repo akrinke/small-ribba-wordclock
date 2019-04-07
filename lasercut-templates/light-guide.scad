@@ -11,7 +11,7 @@ overlap = 5;
 // pcb
 pcb_height = 1.6;
 
-render_3d = true;
+render_3d = false;
 
 if (render_3d) {
     pcb();
@@ -281,12 +281,9 @@ module flat() {
 
 module blockages() {
     color("Blue") {
-        translate([188+thickness/2,172-2*18+thickness/2,-5])
-            cube([12+overlap,2*18-thickness,25]);
-        translate([186+thickness/2,25,-1])
-            cube([14-thickness/2,30,20]);
-        translate([172+thickness/2,112,-1])
-            cube([28-thickness/2,10,20]);
+        // ISP port
+        translate([200-10.5,137])
+            cube([14,20.5,9]);
         // battery holder
         translate([182,200-104,-1])
             cube([16,22,5.5+1+0.2]);
