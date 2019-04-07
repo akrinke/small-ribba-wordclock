@@ -287,6 +287,9 @@ module blockages() {
         // battery holder
         translate([182,200-104,-1])
             cube([16,22,5.5+1+0.2]);
+        // IR sensor
+        translate([156+thickness/2,200-64-thickness])
+            cube([16-thickness,2*thickness,height+1]);
     }
 }
 
