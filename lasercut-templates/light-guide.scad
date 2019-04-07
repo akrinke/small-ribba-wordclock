@@ -81,7 +81,7 @@ vert_cubes = concat([
     // v1-v10
     [for (x=[28:16:172]) [thickness,200+2*overlap,height]],[
     // v11_7805
-    [thickness,18+2*overlap,height],
+    [thickness,18+2*overlap+2,height],
     // v11_capacitors
     [thickness,18+overlap,height],
     // v11_isp_port
@@ -117,7 +117,7 @@ vert_flat_trans = concat([
     // v1-v10, v11_7805
     [for (i=[1:11]) [i*(height+min_distance)+pcb_height,12*(height+min_distance)+2*pcb_height]],[
     // v11_capacitors
-    [11*(height+min_distance)+pcb_height,12*(height+min_distance)+2*pcb_height+30],
+    [11*(height+min_distance)+pcb_height,12*(height+min_distance)+2*pcb_height+35],
     // v11_isp_port
     [11*(height+min_distance)+pcb_height,12*(height+min_distance)+2*pcb_height+60],
     // v12
@@ -323,7 +323,7 @@ module components() {
             cube([11,22,4.43]);
         // PWM transistor IRLU2905
         translate([4.5,95.6])
-            cube([6.9,12,2.5])
+            cube([6.9,12,2.5]);
         // capacitors
         translate([187.833,200-159.766])
             cylinder(h=12.3, d=10.3);
