@@ -11,416 +11,271 @@ overlap = 5;
 // pcb
 pcb_height = 1.6;
 
-render_3d = false;
+render_3d = true;
 
 if (render_3d) {
     pcb();
     components();
     leds();
     screws();
-    /*blockages();*/
-    difference() {
-        union() {
-            horizontal_light_guide();
-            vertical_light_guide();
-        }
-        blockages();
-    }
+    //blockages();
+    hstripes();
+    vstripes();
+    corners();
 } else {
     flat();
-}
-
-// used to cut out the notches of the individual light guide pieces
-module hnotches() {
-    color("red", 0.5)
-        translate([0,0,-height/2])
-            horizontal_light_guide();
-}
-module vnotches() {
-    color("red", 0.5)
-        translate([0,0,height/2])
-            vertical_light_guide();
 }
 
 // horizontal stripes
 // ==================
 
-// outer ring bottom
-module h0() {
-    rotate([-90,0,0])
-        translate([thickness+overlap,thickness,pcb_height])
-            difference() {
-                translate([-thickness-overlap,-thickness,-pcb_height])
-                    cube([200+2*thickness+2*overlap,thickness,height+pcb_height]);
-                vnotches();
-            }
-}
+horiz_cubes = [
+    // h0
+    [200+2*overlap,thickness,height+pcb_height],
+    // h0_7805
+    [14+overlap+thickness/2,thickness,height],
+    // h1-h10
+    [186+overlap+thickness/2,thickness,height],
+    [186+overlap+thickness/2,thickness,height],
+    [200+2*overlap,thickness,height],
+    [200+2*overlap,thickness,height],
+    [200+2*overlap,thickness,height],
+    [172+overlap+thickness/2,thickness,height],
+    [200+2*overlap,thickness,height],
+    [188+overlap+thickness/2,thickness,height],
+    [200+2*overlap,thickness,height],
+    [200+2*overlap,thickness,height+pcb_height]
+];
 
-// 7805 (between row 0 (outer ring) and row 1
-module h0_7805() {
-    rotate([-90,0,0])
-        translate([-172+overlap,-10,0])
-            difference() {
-                translate([172-overlap,10-thickness/2])
-                    cube([14+overlap+thickness/2,thickness,height]);
-                vnotches();
-            }
-}
+// translation of horizontal stripes to their correct 3d position
+horiz_trans = concat([
+    // h0
+    [-overlap,-thickness,-pcb_height],
+    // h0_7805
+    [172-overlap,10-thickness/2]],
+    // h1-h9
+    [for (y=[28:18:182]) [-overlap, y-thickness/2]],
+    // h10
+    [[-overlap,200,-pcb_height]]
+);
 
-// rows 1, 2, 8
-module h1_2_8() {
-    rotate([-90,0,0])
-        translate([overlap,-28])
-            difference() {
-                translate([-overlap,28-thickness/2])
-                    cube([186+overlap+thickness/2,thickness,height]);
-                vnotches();
-            }
-}
+// translation of horizontal stripes to their position on the flat sheet
+horiz_flat_trans = concat([
+    // h0
+    [0,0],
+    // h0_7805
+    [180,6*(height+min_distance)+pcb_height]],
+    // h1-h10
+    [for (i=[1:10]) [0,i*(height+min_distance)+pcb_height]]
+);
 
-// rows 3, 7, 9
-module h3_7_9() {
-    rotate([-90,0,0])
-        translate([overlap,-64])
-            difference() {
-                translate([-overlap,64-thickness/2])
-                    cube([200+2*overlap,thickness,height]);
-                vnotches();
-            }   
-}
-
-// row 4
-module h4() {
-    rotate([-90,0,0])
-        translate([overlap,-82])
-            difference() {
-                translate([-overlap,82-thickness/2])
-                    cube([200+2*overlap,thickness,height]);
-                vnotches();
-            }       
-}
-
-// row 5
-module h5() {
-    rotate([-90,0,0])
-        translate([overlap,-100])
-            difference() {
-                translate([-overlap,100-thickness/2])
-                    cube([200+2*overlap,thickness,height]);
-                vnotches();
-                blockages();
-            }    
-}
-
-// row 6
-module h6() {
-    rotate([-90,0,0])
-        translate([overlap,-118])
-            difference() {
-                translate([-overlap,118-thickness/2])
-                    cube([172+overlap+thickness/2,thickness,height]);
-                vnotches();
-            }
-}
-
-// outer ring top
-module h10() {
-    rotate([-90,0,0])
-        translate([thickness+overlap,-200,pcb_height])
-            difference() {
-                translate([-thickness-overlap,200,-pcb_height])
-                    cube([200+2*thickness+2*overlap,thickness,height+pcb_height]);
-                vnotches();
-            }
-}
 
 // vertical stripes
 // ================
 
-// outer ring left
-module v0() {
-    rotate([0,-90,0])
-        translate([thickness,thickness+overlap,-height])
-            difference() {
-                translate([-thickness,-thickness-overlap,-pcb_height])
-                    cube([thickness,200+2*thickness+2*overlap,height+pcb_height]);
-                hnotches();
-            }
-        
+vert_cubes = concat([
+    // v0
+    [thickness,200+2*overlap,height+pcb_height]],
+    // v1-v10
+    [for (x=[28:16:172]) [thickness,200+2*overlap,height]],[
+    // v11_7805
+    [thickness,18+2*overlap,height],
+    // v11_capacitors
+    [thickness,18+overlap,height],
+    // v11_isp_port
+    [thickness,2*18+2*overlap,height],
+    // v12
+    [thickness,200+2*overlap,height+pcb_height]]
+);
+
+// translation of vertical stripes to their correct 3d position
+vert_trans = concat([
+    // v0
+    [-thickness,-overlap,-pcb_height]],
+    // v1-v10
+    [for (x=[28:16:172]) [x-thickness/2,-overlap]],[
+    // v11_7805
+    [186-thickness/2,10-overlap],
+    // v11_capacitors
+    [186-thickness/2,46-thickness/2],
+    // v11_isp_port
+    [188-thickness/2,172-2*18-overlap],
+    // v12
+    [200,-overlap,-pcb_height]]
+);
+
+// translation of vertical stripes to their position on the flat sheet
+vert_flat_trans = concat([
+    // v0
+    [0,12*(height+min_distance)+2*pcb_height]],
+    // v1-v10, v11_7805
+    [for (i=[1:11]) [i*(height+min_distance)+pcb_height,12*(height+min_distance)+2*pcb_height]],[
+    // v11_capacitors
+    [11*(height+min_distance)+pcb_height,12*(height+min_distance)+2*pcb_height+30],
+    // v11_isp_port
+    [11*(height+min_distance)+pcb_height,12*(height+min_distance)+2*pcb_height+60],
+    // v12
+    [12*(height+min_distance)+pcb_height,12*(height+min_distance)+2*pcb_height]]
+);
+
+// corner segments
+// ===============
+
+// length of a diagonal corner segment
+corner_length = (14+2*overlap)*sqrt(2);
+
+/*
+    (1+1/cos(45))*thickness is the required gap width for interlocking with a 45 degree rotated piece with the same thickness.
+    However, after projection, the real gap width when subtracting a piece of width t2 is thickness+t2/cos(45)-2*thickness.
+    Therefore, a width of (1+2*cos(45))*thickness is required.
+*/
+corner_gap_width = (1+2*cos(45))*thickness;
+
+
+module corner_cube() {
+    cube([thickness,corner_length,height],center=true);
 }
 
-// default vertical stripe (9x; column 1-9)
-module v1_9() {
-    rotate([0,-90,0])
-        translate([-28,overlap,-height])
-            difference() {
-                translate([28-thickness/2,-overlap])
-                    cube([thickness,200+2*overlap,height]);
-                hnotches();
-            }
+module corner_notch_cube() {
+    cube([corner_gap_width,corner_length,height],center=true);
 }
 
-// column 10
-module v10() {
-    rotate([0,-90,0])
-        translate([-172,overlap,-height])
+corner_trans = [
+    [7,7,height/2],
+    [7,200-7,height/2],
+    [200-7,200-7,height/2],
+    [200-7,7,height/2]
+];
+
+corner_flat_trans = [for (x=[0:40:120]) [x,11*(height+min_distance)+2*pcb_height]];
+
+corner_rot = [
+    [0,0,45],
+    [0,0,-45],
+    [0,0,45],
+    [0,0,-45]
+];
+
+// used to cut out the notches of the individual light guide pieces
+module hnotches() {
+    color("red", 0.5)
+        translate([0,0,-height/2]) {
+            for (i=[0:len(horiz_trans)-1])
+                translate(horiz_trans[i])
+                    cube(horiz_cubes[i]);
+            // corner segments
             difference() {
-                translate([172-thickness/2,-overlap])
-                    cube([thickness,200+2*overlap,height]);
-                hnotches();
+                for (i=[0:3])
+                    translate(corner_trans[i])
+                        rotate(corner_rot[i])
+                            corner_notch_cube();
+                // use only one half of the corner segment
+                for (x=[4,200-20-4],y=[-10,200-10])
+                    translate([x,y,-1])
+                        cube([20,20,2*height]);
             }
+        }
 }
 
-// column 11
-module v11_7805() {
-    rotate([0,-90,0])
-        translate([-186,-10+overlap,-height])
+module vnotches() {
+    color("red", 0.5)
+        translate([0,0,height/2]) {
+            for (i=[0:len(vert_trans)-1])
+                translate(vert_trans[i])
+                    cube(vert_cubes[i]);
+            // corner segments
             difference() {
-                translate([186-thickness/2,10-overlap])
-                    cube([thickness,18+2*overlap,height]);
-                hnotches();
+                for (i=[0:3])
+                    translate(corner_trans[i])
+                        rotate(corner_rot[i])
+                            corner_notch_cube();
+                // use only one half of the corner segment
+                for (x=[-20+4,200-4],y=[4,200-20])
+                    translate([x,y,-1])
+                        cube([20,20,2*height]);
             }
+        }
 }
 
-module v11_capacitors() {
-    rotate([0,-90,0])
-        translate([-186,-46+thickness/2,-height])
-            difference() {
-                translate([186-thickness/2,46-thickness/2])
-                    cube([thickness,18+overlap,height]); 
-                hnotches();
-            }
+module corner_notches() {
+    translate([0,0,-height/2])
+        for (x=[14,200-14],y=[-thickness/2,200+thickness/2])
+            translate([x,y,height/2])
+                cube([10,corner_gap_width,height],center=true);
+    translate([0,0,height/2])
+        for (x=[-thickness/2,200+thickness/2],y=[14,200-14])
+            translate([x,y,height/2])
+                cube([corner_gap_width,10,height],center=true);
 }
 
-module v11_isp_port() {
-    rotate([0,-90,0])
-        translate([-188,-172+2*18+overlap,-height])
-            difference() {
-                translate([188-thickness/2,172-2*18-overlap])
-                    cube([thickness,2*18+2*overlap,height]);
-                hnotches();
-            }
+module hstripe(i) {
+    difference() {
+        translate(horiz_trans[i])
+            cube(horiz_cubes[i]);
+        vnotches();
+        blockages();
+    }
 }
 
-// outer ring right
-module v12() {
-    rotate([0,-90,0])
-        translate([-200,thickness+overlap,-height])
-            difference() {
-                translate([200,-thickness-overlap,-pcb_height])
-                cube([thickness,200+2*thickness+2*overlap,height+pcb_height]);
-                hnotches();
-                blockages();
-            }
+module hstripes() {
+    for (i=[0:len(horiz_trans)-1])
+        hstripe(i);
 }
 
-// diagonal corner pieces
-module corner() {
-    rotate([-90,0,0])
-        translate([0,7])
-            rotate([0,0,45])
-                translate([0,-14-2*overlap,0])
-                    difference() {
-                        translate([7,7,height/2])
-                            rotate([0,0,45])
-                                cube([thickness,(14+2*overlap)*sqrt(2),height],center=true);
-                        // enlarge gap width in diagonal corner piece
-                        translate([14,-thickness/2,0])
-                            cube([10,(1+2*cos(45))*thickness,height],center=true);
-                        translate([-thickness/2,14,height])
-                            cube([(1+2*cos(45))*thickness,10,height],center=true);
-                    }
+module vstripe(i) {
+    difference() {
+        translate(vert_trans[i])
+            cube(vert_cubes[i]);
+        hnotches();
+        blockages();
+    }
+}
+
+module vstripes() {
+    for (i=[0:len(vert_trans)-1])
+        vstripe(i);
+}
+
+module corner(i) {
+    difference() {
+        translate(corner_trans[i])
+            rotate(corner_rot[i])
+                corner_cube();
+        corner_notches();
+        blockages();
+    }
+}
+
+module corners() {
+    for (i=[0:3])
+        corner(i);
 }
 
 module flat() {
-    //translate([0,-500])
     offset(delta=kerf/2) {
         projection() {
-            h0();
-            translate([0,pcb_height]) {
-                translate([180,6*(height+min_distance)])
-                    h0_7805();
-                translate([0,1*(height+min_distance)])
-                    h1_2_8();
-                translate([0,2*(height+min_distance)])
-                    h1_2_8();
-                translate([0,3*(height+min_distance)])
-                    h3_7_9();
-                translate([0,4*(height+min_distance)])
-                    h4();
-                translate([0,5*(height+min_distance)])
-                    h5();
-                translate([0,6*(height+min_distance)])
-                    h6();
-                translate([0,7*(height+min_distance)])
-                    h3_7_9();
-                translate([0,8*(height+min_distance)])
-                    h1_2_8();
-                translate([0,9*(height+min_distance)])
-                    h3_7_9();
-                translate([0,10*(height+min_distance)])
-                    h10();
-                translate([0,11*(height+min_distance)+pcb_height]) {
-                    corner();
-                    translate([40,0])
-                        corner();
-                    translate([80,0])
-                        corner();
-                    translate([120,0])
-                        corner();
-                }
-            }
-            translate([0,12*(height+min_distance)+2*pcb_height]) {
-                v0();
-                translate([pcb_height,0]) {
-                    translate([1*(height+min_distance),0])
-                        v1_9();
-                    translate([2*(height+min_distance),0])
-                        v1_9();
-                    translate([3*(height+min_distance),0])
-                        v1_9();
-                    translate([4*(height+min_distance),0])
-                        v1_9();
-                    translate([5*(height+min_distance),0])
-                        v1_9();
-                    translate([6*(height+min_distance),0])
-                        v1_9();
-                    translate([7*(height+min_distance),0])
-                        v1_9();
-                    translate([8*(height+min_distance),0])
-                        v1_9();
-                    translate([9*(height+min_distance),0])
-                        v1_9();
-                    translate([10*(height+min_distance),0])
-                        v10();
-                    translate([11*(height+min_distance),0]) {
-                        v11_7805();
-                        translate([0,30])
-                            v11_capacitors();
-                        translate([0,60])
-                            v11_isp_port();
-                    }
-                    translate([12*(height+min_distance),0])
-                        v12();
-                }
-            }
+            // horizontal segments
+            for (i=[0:len(horiz_trans)-1])
+                translate(horiz_flat_trans[i])
+                    rotate([-90,0,0])
+                        translate(-horiz_trans[i])
+                            hstripe(i);
+            // corners
+            for (i=[0:3])
+                translate(corner_flat_trans[i])
+                    translate([corner_length/2,height/2])
+                        rotate([-90,0,0])
+                            rotate(corner_rot[i])
+                                translate(-corner_trans[i])
+                                    corner(i);
+
+            // vertical segments
+            for (i=[0:len(vert_trans)-1])
+                translate(vert_flat_trans[i])
+                    rotate([0,90,0])
+                        translate(-vert_trans[i])
+                            vstripe(i);
         }
-    }
-}
-
-module horizontal_light_guide() {
-    // outer ring
-    translate([-thickness-overlap,-thickness,-pcb_height])
-        cube([200+2*thickness+2*overlap,thickness,height+pcb_height]);
-    translate([-thickness-overlap,200,-pcb_height])
-        cube([200+2*thickness+2*overlap,thickness,height+pcb_height]);
-
-
-    // inner stripes
-    difference() {
-        for (y=[28:18:172])
-            translate([-overlap,y-thickness/2])
-                cube([200+2*overlap,thickness,height]);
-        translate([186+thickness/2,25,-1])
-            cube([30,30,20]);
-        translate([172+thickness/2,112,-1])
-            cube([40,10,20]);
-    }
-
-    // 7805
-    translate([172-overlap,10-thickness/2])
-        cube([14+overlap+thickness/2,thickness,height]);
-
-    // corners
-    difference() {
-        translate([7,7,height/2])
-            rotate([0,0,45])
-                // (1+1/cos(45))*thickness is the required gap width for interlocking with a 45 degree rotated piece with the same thickness.
-                // However, after projection, the real gap width when subtracting a piece of width t2 is thictkness+t2/cos(45)-2*thickness
-                // Therefore, a width of (1+2*cos(45))*thickness is required.
-                cube([(1+2*cos(45))*thickness,(14+2*overlap)*sqrt(2),height],center=true);
-        translate([4,-10,-1])
-            cube([20,20,2*height]);
-    }
-    
-    difference() {
-        translate([7,200-7,height/2])
-            rotate([0,0,-45])
-                cube([(1+2*cos(45))*thickness,(14+2*overlap)*sqrt(2),height],center=true);
-        translate([4,200-10,-1])
-            cube([20,20,2*height]);
-    }
-
-    difference() {
-        translate([200-7,200-7,height/2])
-            rotate([0,0,45])
-                cube([(1+2*cos(45))*thickness,(14+2*overlap)*sqrt(2),height],center=true);
-        translate([200-20-4,200-10,-1])
-            cube([20,20,2*height]);
-    }
-
-    difference() {
-        translate([200-7,7,height/2])
-            rotate([0,0,-45])
-                cube([(1+2*cos(45))*thickness,(14+2*overlap)*sqrt(2),height],center=true);
-        translate([200-20-4,-10,-1])
-            cube([20,20,2*height]);
-    }
-}
-
-module vertical_light_guide() {
-    // outer ring
-    translate([-thickness,-thickness-overlap,-pcb_height])
-        cube([thickness,200+2*thickness+2*overlap,height+pcb_height]);
-    translate([200,-thickness-overlap,-pcb_height])
-        cube([thickness,200+2*thickness+2*overlap,height+pcb_height]);
-    
-    // inner stripes
-    for (x=[28:16:172])
-        translate([x-thickness/2,-overlap])
-            cube([thickness,200+2*overlap,height]);
-
-    // 7805
-    translate([186-thickness/2,10-overlap])
-        cube([thickness,18+2*overlap,height]);
-    // capacitors
-    translate([186-thickness/2,46-thickness/2])
-        cube([thickness,18+overlap,height]);    
-    // ISP port
-    translate([188-thickness/2,172-2*18-overlap])
-        cube([thickness,2*18+2*overlap,height]);
-    
-    // corners
-    difference() {
-        translate([7,7,height/2])
-            rotate([0,0,45])
-                cube([(1+2*cos(45))*thickness,(14+2*overlap)*sqrt(2),height],center=true);
-        translate([-20+4,4,-1])
-            cube([20,20,2*height]);
-    }
-    
-    difference() {
-        translate([7,200-7,height/2])
-            rotate([0,0,-45])
-                cube([(1+2*cos(45))*thickness,(14+2*overlap)*sqrt(2),height],center=true);
-        translate([-20+4,200-20,-1])
-            cube([20,20,2*height]);
-    }
-        
-    difference() {
-        translate([200-7,200-7,height/2])
-            rotate([0,0,45])
-                cube([(1+2*cos(45))*thickness,(14+2*overlap)*sqrt(2),height],center=true);
-        translate([200-4,200-20,-1])
-            cube([20,20,2*height]);
-    }
-    
-    difference() {
-        translate([200-7,7,height/2])
-            rotate([0,0,-45])
-                cube([(1+2*cos(45))*thickness,(14+2*overlap)*sqrt(2),height],center=true);
-        translate([200-4,0,-1])
-            cube([20,20,2*height]);
     }
 }
 
@@ -477,7 +332,7 @@ module leds() {
     height = 5;
     diameter = 5;
     $fn = 30; // number of fragments
-    
+
     color("Red") {
         for (x=[20 : 16 : 180])
             for (y=[19 : 18 : 181])
