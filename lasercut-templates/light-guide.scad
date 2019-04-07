@@ -75,7 +75,9 @@ horiz_flat_trans = concat([
 
 vert_cubes = concat([
     // v0
-    [thickness,200+2*overlap,height+pcb_height]],
+    [thickness,200+2*overlap,height+pcb_height],
+    // v0_PWM
+    [thickness,2*18+2*overlap,height]],
     // v1-v10
     [for (x=[28:16:172]) [thickness,200+2*overlap,height]],[
     // v11_7805
@@ -91,7 +93,9 @@ vert_cubes = concat([
 // translation of vertical stripes to their correct 3d position
 vert_trans = concat([
     // v0
-    [-thickness,-overlap,-pcb_height]],
+    [-thickness,-overlap,-pcb_height],
+    // v0_PWM
+    [12-thickness/2,82-overlap]],
     // v1-v10
     [for (x=[28:16:172]) [x-thickness/2,-overlap]],[
     // v11_7805
@@ -107,7 +111,9 @@ vert_trans = concat([
 // translation of vertical stripes to their position on the flat sheet
 vert_flat_trans = concat([
     // v0
-    [0,12*(height+min_distance)+2*pcb_height]],
+    [0,12*(height+min_distance)+2*pcb_height],
+    // v0_PWM
+    [11*(height+min_distance)+pcb_height,12*(height+min_distance)+2*pcb_height+110]],
     // v1-v10, v11_7805
     [for (i=[1:11]) [i*(height+min_distance)+pcb_height,12*(height+min_distance)+2*pcb_height]],[
     // v11_capacitors
@@ -290,6 +296,9 @@ module blockages() {
         // IR sensor
         translate([156+thickness/2,200-64-thickness])
             cube([16-thickness,2*thickness,height+1]);
+        // PWM transistor IRLU2905
+        translate([4.5,95.6])
+            cube([6.9,12,2.5]);
     }
 }
 
@@ -312,6 +321,9 @@ module components() {
         // 7805
         translate([187,200-187])
             cube([11,22,4.43]);
+        // PWM transistor IRLU2905
+        translate([4.5,95.6])
+            cube([6.9,12,2.5])
         // capacitors
         translate([187.833,200-159.766])
             cylinder(h=12.3, d=10.3);
