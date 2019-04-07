@@ -40,7 +40,7 @@ horiz_cubes = [
     [200+2*overlap,thickness,height],
     [200+2*overlap,thickness,height],
     [200+2*overlap,thickness,height],
-    [172+overlap+thickness/2,thickness,height],
+    [172+2*overlap+thickness/2,thickness,height],
     [200+2*overlap,thickness,height],
     [188+overlap+thickness/2,thickness,height],
     [200+2*overlap,thickness,height],
@@ -64,7 +64,7 @@ horiz_flat_trans = concat([
     // h0
     [0,0],
     // h0_7805
-    [180,6*(height+min_distance)+pcb_height]],
+    [186,6*(height+min_distance)+pcb_height]],
     // h1-h10
     [for (i=[1:10]) [0,i*(height+min_distance)+pcb_height]]
 );
