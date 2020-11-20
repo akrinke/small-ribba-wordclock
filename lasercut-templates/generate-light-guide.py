@@ -30,8 +30,17 @@ svg_node = svg_dom.documentElement
 # Source: https://github.com/scottbez1/splitflap/blob/master/3d/svg_processor.py
 
 # Add mm units to the document dimensions
-svg_node.attributes['width'].value += 'mm'
-svg_node.attributes['height'].value += 'mm'
+width = svg_node.attributes['width'].value
+if width.replace('.', '', 1).isdigit():
+    svg_node.attributes['width'].value = width + 'mm'
+else:
+    assert width[-2:] == 'mm', 'Expected document width in millimetres or without unit: "%s"' % width
+
+height = svg_node.attributes['height'].value
+if height.replace('.', '', 1).isdigit():
+    svg_node.attributes['height'].value = height + 'mm'
+else:
+    assert height[-2:] == 'mm', 'Expected document height in millimetres or without unit: "%s"' % height
 
 # Set fill and stroke for laser cutting
 attributes = {
